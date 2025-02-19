@@ -334,6 +334,10 @@ body {
   justify-content: left;
 }
 
+.buildables .description{
+  grid-row: 3;
+}
+
 .mint {
   color:greenyellow;
 }
