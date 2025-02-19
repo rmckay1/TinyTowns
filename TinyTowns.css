@@ -332,9 +332,13 @@ body {
   font-weight: bold;
   font-size: 25px;
   justify-content: left;
+  grid-column-start: 1;
+  grid-column-end: 3;
 }
 
 .buildables .description{
+  grid-column-start: 1;
+  grid-column-end: 3;
   grid-row: 3;
 }
 
@@ -351,6 +355,8 @@ body {
   -1px 1px 0 #ffffff,
   1px 1px 0 #ffffff;
   grid-row: 2;
+  grid-column-start: 1;
+  grid-column-end: 3;
 }
 
 span.blocks::after {
