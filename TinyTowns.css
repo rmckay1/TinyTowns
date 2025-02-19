@@ -1,0 +1,61 @@
+body {
+    display: grid;
+    grid-template-areas: 
+      "buildableCards buildableCards"
+      "resources buildings";
+    gap: 0px 0px;
+    margin: 10px;
+    padding: 0;
+    font-family: Trebuchet MS, sans-serif; 
+    background-color: #f8f8f8;
+    max-width: 800px;
+  }
+  
+  .buildableCards {
+    grid-area: buildings;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-auto-flow: row;
+    gap: 5px 5px;
+    width: 100%;
+    max-width: 350px;
+  }
+  
+  .card {
+    display: grid;
+    grid-template-columns: 45px 1fr;
+    grid-auto-rows: 27px;
+    column-gap: 10px;
+    row-gap: 5px;
+    padding: 10px;
+    border: 1px solid #aaa;
+    border-radius: 16px;
+    background-color: #f0d2a7;
+    height: 200px;
+  }
+  
+  .card .placement {
+    grid-column: 1;
+    grid-row: 1 / 5;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #9bb6ad;
+    border-radius: 8px;
+    font-size: 10px;
+    font-weight: bold;
+    text-align: center;
+    padding: 10px;
+  }
+  
+  .card .name {
+    grid-column: 2;
+    grid-row: 1;
+    padding: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    background-color: #9bb6ad;
+    border-radius: 8px;
+    text-align: center;
+  }
