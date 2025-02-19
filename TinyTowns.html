@@ -3,32 +3,47 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tiny Towns</title>
+    <title>Mint Works</title>
     <link rel="stylesheet" href="TinyTowns.css">
     <script src="TinyTowns.js" delay></script>
   </head>
   <body>
-    <div class="buildableCards">
-      <div id="well" class="card">
-        <div class="name">Well</div>
-      </div>
-      <div id="fedCottage" class="card">
-        <div class="name">Fed Cottage</div>
-      </div>
-      <div id="chapel" class="card">
-        <div class="name">Fed Cottage</div>
-      </div>
-      <div id="tavern" class="card">
-        <div class="name">Tavern</div>
-      </div>
-      <div id="bakery" class="card">
-        <div class="name">Bakery</div>
-      </div>
-      <div id="warehouse" class="card">
-        <div class="name">Warehouse</div>
-      </div>
+    <div class="buildables">
+      <div id="well" class="buildables card">
+        <div class="well title">Well</div>
+          <div class="recipe well"><span style="color: brown;" class="blocks"></span><span style="color: gray;" class="blocks"></span></div>
+          <div class="description">1<span class="mint"></span> for each adjacent<span class="house"></span></div>
     </div>
-    <div class="resources"></div>
-    <div class="buildings"></div>
+      <div id="theatre" class="buildables card">
+        <div class="theatre title">Theatre</div>
+        <div class="recipe well"><span style="color: brown;" class="blocks"></span><span style="color: gray;" class="blocks"></span></div>
+        <div class="description">1<span class="mint"></span> for each adjacent<span class="house"></span></div>
+      </div>
+      <div id="factory" class="buildables card">
+        <div class="factory title">Factory</div>
+        <div class="recipe well"><span style="color: brown;" class="blocks"></span><span style="color: gray;" class="blocks"></span></div>
+        <div class="description">1<span class="mint"></span> for each adjacent<span class="house"></span></div>
+
+
+
+
+
+
+      </div>
+        <!-- <div class="name">
+          PASS
+        </div>
+      </div>
+      <div id="supplierLocation" class="location"></div>
+      <div id="leadershipcouncilLocation" class="location"></div>
+      <div id="lottoLocation" class="location"></div>
+    </div>
+    <div id="planSupply" class="plans"></div>
+    <div class="deck"><div class="logo">Mint<br>Works</div></div>
+    <div class="players">
+      <div id="playerNeighborhood" class="player"></div>
+      <div id="aiNeighborhood" class="player"></div>
+    </div> -->
+    <div id="popup"></div>
   </body>
 </html>
