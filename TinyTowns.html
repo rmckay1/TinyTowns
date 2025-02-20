@@ -10,39 +10,46 @@
   <body>
     <div class="buildables">
       <div id="well" class="buildables card">
-        <div class="well title">Well</div>
-        <div class="recipe well" style="justify-content: center;"><span style="color: saddlebrown; grid-row: 3; grid-column: 3;" class="blocks"></span><span style="color: grey; grid-row: 3; grid-column: 4;" class="blocks"></span></div>
-        <div class="description">1<span class="mint"></span> for each adjacent<span class="house"></span></div>
+        <div class="well title">Well<span style="float:right; color:grey;" class="buildableType"></span></div>
+        <div class="recipe well" style="justify-content: center;"> <span style="color: saddlebrown; grid-row: 3; grid-column: 3;" class="blocks"></span><span style="color: grey; grid-row: 3; grid-column: 4;" class="blocks"></span></div>
+        <div class="description">1 <span class="mint"></span> for each adjacent <span style="color:turquoise;" class="buildableType"></span>.</div>
       </div>
       <div id="theatre" class="buildables card">
-        <div class="theatre title">Theatre</div>
+        <div class="theatre title">Theatre<span style="float:right; color:yellow;" class="buildableType"></span></div>
         <div class="recipe theatre" style="justify-content: center;"></span></span><span style="color: grey; grid-row: 2; grid-column: 3;" class="blocks"></span></span><span style="color: saddlebrown; grid-row: 3; grid-column: 2;" class="blocks"></span><span style="color: cyan; grid-row: 3; grid-column: 3;" class="blocks"></span><span style="color: saddlebrown; grid-row: 3; grid-column: 4;" class="blocks"></span></div>
-        <div class="description">1<span class="mint"></span> for each adjacent<span class="house"></span></div>
+        <div class="description">1 <span class="mint"></span> for each other unique building type in the same row and column as <span style="color:yellow;" class="buildableType"></span>.</div>
       </div>
       <div id="factory" class="buildables card">
-        <div class="factory title">Factory</div>
+        <div class="factory title">Factory<span style="float:right; color:navy;" class="buildableType"></span></div>
         <div class="recipe chapel" style="justify-content: center;"></span></span><span style="color: saddlebrown; grid-row: 2; grid-column: 1;" class="blocks"></span><span style="color: red; grid-row: 3; grid-column: 1;" class="blocks"></span><span style="color: grey; grid-row: 3; grid-column: 2;" class="blocks"></span><span style="color: grey; grid-row: 3; grid-column: 3;" class="blocks"></span><span style="color: red; grid-row: 3; grid-column: 4;" class="blocks"></span></div>
-        <div class="description">1<span class="mint"></span> for each adjacent<span class="house"></span></div>
+        <div class="description" style="font-size: 75%;">When constructed, place 1 of the 5 resources on <span style="color:navy;" class="buildableType"></span>. When another player names this resource, you may play a different resource instead.</div>
       </div>
       <div id="cottage" class="buildables card">
-        <div class="cottage title">Cottage</div>
+        <div class="cottage title">Cottage<span style="float:right; color:turquoise;" class="buildableType"></span></div>
         <div class="recipe cottage" style="justify-content: center;"></span></span><span style="color: khaki; grid-row: 2; grid-column: 4;" class="blocks"></span></span><span style="color: red; grid-row: 3; grid-column: 3;" class="blocks"></span><span style="color: cyan; grid-row: 3; grid-column: 4;" class="blocks"></span></div>
-        <div class="description">3<span class="mint"></span> if this building is fed</div>
+        <div class="description">3 <span class="mint"></span> if this building is fed</div>
       </div>
       <div id="chapel" class="buildables card">
-        <div class="chapel title">Chapel</div>
+        <div class="chapel title">Chapel<span style="float:right; color:orange;" class="buildableType"></span></div>
         <div class="recipe chapel" style="justify-content: center;"></span></span><span style="color: cyan; grid-row: 2; grid-column: 4;" class="blocks"></span></span><span style="color: grey; grid-row: 3; grid-column: 2;" class="blocks"></span><span style="color: cyan; grid-row: 3; grid-column: 3;" class="blocks"></span><span style="color: grey; grid-row: 3; grid-column: 4;" class="blocks"></span></div>
-        <div class="description">1<span class="mint"></span> for each fed<span class="house"></span></div>
+        <div class="description">1 <span class="mint"></span> for each fed <span style="color:turquoise;" class="buildableType"></span>.</div>
       </div>
       <div id="farm" class="buildables card">
-        <div class="farm title">Farm</div>
+        <div class="farm title">Farm<span style="float:right; color:red;" class="buildableType"></span></div>
         <div class="recipe farm" style="justify-content: center;"></span></span><span style="color: khaki; grid-row: 2; grid-column: 3;" class="blocks"></span><span style="color: khaki; grid-row: 2; grid-column: 4;" class="blocks"></span></span><span style="color:saddlebrown; grid-row: 3; grid-column: 3;" class="blocks"></span><span style="color: saddlebrown; grid-row: 3; grid-column: 4;" class="blocks"></span></div>
-        <div class="description">Feeds 4<span class="leaf"></span> buildings anywhere in your town</div>
+        <div class="description">Feeds 4 <span class="leaf"></span> buildings anywhere in your town</div>
       </div>
       <div id="tavern" class="buildables card">
-        <div class="tavern title">Tavern</div>
+        <div class="tavern title">Tavern<span style="float:right; color:green;" class="buildableType"></span></div>
         <div class="recipe tavern" style="justify-content: center;"></span></span></span><span style="color: red; grid-row: 3; grid-column: 2;" class="blocks"></span><span style="color: red; grid-row: 3; grid-column: 3;" class="blocks"></span><span style="color: cyan; grid-row: 3; grid-column: 4;" class="blocks"></span></div>
-        <div class="description"><span class="mint"></span>  based on your constructed<span class="house"></span></div>
+        <div class="description"><span class="mint"></span>  based on your constructed <span style="color:green;" class="buildableType"></span>.</div>
+        <div class="description tavern">
+          <br><br>
+          <div style="grid-row:1; padding-top: 5px; padding-left: 5px; word-spacing: 5px; white-space: pre;"><span style="color:green;" class="buildableType"></span> 1 2 3<span>&thinsp;</span><span>&thinsp;</span> 4  5</div>
+          <div style="grid-row:2; padding-left: 7px; border-top-style: dotted; border-top-color: black; border-top-width: 2px; word-spacing: 5px;"><span class="mint"></span><span>&thinsp;</span> 2 5 9 14 20</div>
+
+
+        </div>
       </div>
     </div>
 
