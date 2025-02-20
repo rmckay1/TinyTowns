@@ -341,6 +341,7 @@ body {
   grid-column-start: 1;
   grid-column-end: 3;
   grid-row: 3;
+  height: 70px;
 }
 
 .matsAndBuildTile {
@@ -402,6 +403,7 @@ body {
 .recipe{
   background-color: #6c2f07;
   border: rgb(255, 255, 255);
+  border-radius: 10px;
   text-shadow: 
   -1px -1px 0 #ffffff,
   1px -1px 0 #ffffff,
@@ -411,7 +413,7 @@ body {
   display:grid;
   grid-column-start: 1;
   grid-column-end: 3;
-  gap: 8px;
+  gap: 0px;
   grid-row-gap: 0;
   grid-column-gap: 0;
   grid-template-columns: 1fr 1fr 1fr 1fr;
