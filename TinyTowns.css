@@ -310,18 +310,19 @@ body {
   height: 300px;
   width: 1200px;
   border-radius: 10px;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: auto auto auto auto auto;
   grid-auto-flow: rows;
   display: flex;
   justify-content: center;
   align-items: center;
   grid-row: 1;
   gap: 20px;
+  padding: 20px;
 }
 
 .buildables .card{
   background-color: #fbc079;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: auto;
   grid-auto-flow: rows;
   display: grid;
 }
@@ -386,16 +387,29 @@ body {
   -1px 1px 0 #ffffff,
   1px 1px 0 #ffffff;
   grid-row: 2;
+  display:grid;
   grid-column-start: 1;
   grid-column-end: 3;
+  gap: 8px;
+  grid-row-gap: 0;
+  grid-column-gap: 0;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  height: 100%;
+  width: 100%;
+}
+
+.blocks{
+  text-align: center;
+  font-size: 500%;
+  outline: white;
+  gap:0px;
+  line-height: .5;
+  padding: 0px;
 }
 
 span.blocks::after {
-  outline: white;
   content: "\25A0";
-  font-size: 450%;
-  gap:0px;
-  padding: 0px;
 }
 
 span.mint::after {
