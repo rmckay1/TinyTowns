@@ -412,7 +412,7 @@ body {
   gap: 8px;
   grid-row-gap: 0;
   grid-column-gap: 0;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr;
   height: 150px;
   width: 150px;
@@ -420,7 +420,7 @@ body {
 
 .blocks{
   text-align: center;
-  font-size: 500%;
+  font-size: 450%;
   outline: white;
   gap:0px;
   line-height: .5;
