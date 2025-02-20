@@ -307,8 +307,6 @@ body {
 .buildables {
   grid-column: 1/2;
   grid-row: 1/2;
-  height: 300px;
-  width: 1200px;
   border-radius: 10px;
   grid-template-columns: auto auto auto auto auto;
   grid-auto-flow: rows;
@@ -316,19 +314,17 @@ body {
   justify-content: center;
   align-items: center;
   grid-row: 1;
-  gap: 20px;
+  gap: 10px;
   padding: 20px;
 }
 
 .buildables .card{
+  height: 300px;
+  width: 150px;
   background-color: #fbc079;
   grid-template-columns: auto;
   grid-auto-flow: rows;
   display: grid;
-}
-
-.buildables .theatre{
-  background-color: #fbc079;
 }
 
 .buildables .title {
@@ -373,38 +369,11 @@ body {
   height: 100px;
   margin: auto;
 }
-
-.town {
-  grid-row: 2/2;
-  grid-column: 1/2;
-  background-color: #d4b48b;
-  border: 5px solid #6c2f07;
-  border-radius: 5px;
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: center;
-  align-items: center;
-  width: 480px;
-  height: 480px;
-}
-
-.tile {
-  background-color: #fbc079;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 64px;
-  border: 5px solid #6c2f07;
-  border-radius: 5px;
-  width: 100px;
-  height: 100px;
-  margin: auto;
-}
 .mint {
   color:greenyellow;
 }
 
-.buildables .recipe{
+.recipe{
   background-color: #6c2f07;
   border: rgb(255, 255, 255);
   text-shadow: 
@@ -421,8 +390,8 @@ body {
   grid-column-gap: 0;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr;
-  height: 100%;
-  width: 100%;
+  height: 150px;
+  width: 150px;
 }
 
 .blocks{
