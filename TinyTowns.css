@@ -293,19 +293,12 @@
 } */
 
 body {
-  margin: 10px;
-  padding: 0;
   font-family: Trebuchet MS, sans-serif; 
   background-color: #c9bcbc;
-  max-width: 1500px;
-  /* display: grid;
-  grid-template-rows: 1fr; 
-  grid-template-columns: 1fr; */
+  max-width: 2000px;
 }
 
 .buildables {
-  grid-column: 1/2;
-  grid-row: 1/2;
   border-radius: 10px;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   grid-template-rows: 1fr;
@@ -314,12 +307,13 @@ body {
   grid-row: 1;
   gap: 10px;
   width: 100%;
-  padding: 20px;
+  padding: 10px;
 }
 
-.buildables .card{
-  height: 300px;
-  width: 150px;
+.buildables .card {
+  height: 330px;
+  width: 190px;
+  padding: 10px;
   border:black 2px solid;
   background-color: #fbc079;
   grid-template-columns: auto;
@@ -327,31 +321,50 @@ body {
   display: grid;
 }
 
-.buildables .title {
+.cardHead {
+  width: 190px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr;
+}
+
+.title {
+  width: 75%;
   text-align: left;
   padding: 10px;
   font-weight: bold;
-  font-size: 25px;
+  font-size: 22px;
   justify-content: left;
-  grid-column-start: 1;
-  grid-column-end: 3;
+  grid-column: 1/2;
+}
+
+.icon {
+  justify-self: right;
+  width: 20px;
+  padding: 10px;
+  height: 20px;
+  border-radius: 20px;
+  background-color: white;
+  grid-column: 2/2;
 }
 
 .buildables .description{
   grid-column-start: 1;
   grid-column-end: 3;
   grid-row: 3;
-  height: 70px;
+  height: 100px;
 }
 
 .matsAndBuildTile {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-row: 1fr;
-  padding:50px;
-  gap:50px;
+  padding:10px;
+  gap:10px;
 }
 .resources {
+  align-items: center;
+  justify-items: center;
   grid-row:1;
   grid-column: 1;
   grid-template-columns: 1fr;
@@ -400,49 +413,56 @@ body {
   color:greenyellow;
 }
 
-.recipe{
-  background-color: #6c2f07;
-  border: rgb(255, 255, 255);
+.recipe {
+  background-color: #e1d0c5;
+  border: #6c2f07 solid;
+  border-width: 5px;
   border-radius: 10px;
-  text-shadow: 
-  -1px -1px 0 #ffffff,
-  1px -1px 0 #ffffff,
-  -1px 1px 0 #ffffff,
-  1px 1px 0 #ffffff;
   grid-row: 2;
-  display:grid;
+  display: block;
+  width: 160px;
+  justify-content: center;
+  padding: 10px;
+  
+}
+
+.recipeGrid {
+  display: grid;
+  width: 100px;
   grid-column-start: 1;
   grid-column-end: 3;
-  gap: 0px;
-  grid-row-gap: 0;
-  grid-column-gap: 0;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr;
-  height: 150px;
-  width: 150px;
+  gap: 2px;
 }
 
 .blocks{
-  text-align: center;
-  font-size: 450%;
-  outline: white;
-  text-shadow: 
-  -1px -1px 0 #ffffff,
-  1px -1px 0 #ffffff,
-  -1px 1px 0 #ffffff,
-  1px 1px 0 #ffffff; 
-  gap:0px;
-  line-height: .5;
-  padding: 0px;
+  width: 25px;
+  height: 25px;
+  border-radius: 2px;
+  outline: white solid;
 }
 
-.blocks .tile{
-  z-index: 1;
+.wood {
+  background-color: #905a36;
 }
 
-span.blocks::after {
-  content: "\25A0";
+.wheat {
+  background-color: #fffa9e;
 }
+
+.brick {
+  background-color: #9b3e0c;
+}
+
+.glass {
+  background-color: #59dcd7;
+}
+
+.stone {
+  background-color: #8e9a99;
+}
+
 
 span.mint::after {
   color: #fff;
@@ -454,6 +474,15 @@ span.mint::after {
   content: "\25c9";
 }
 
+span.leaf::after {
+  color: black;
+  text-shadow: 
+  -1px -1px 0 #666,
+  1px -1px 0 #666,
+  -1px 1px 0 #666,
+  1px 1px 0 #666; 
+  content: "\1F342";
+}
 span.house::after {
   content: "\2302";
   color:white;
