@@ -352,7 +352,15 @@ body {
   grid-column-start: 1;
   grid-column-end: 3;
   grid-row: 3;
+  width: 200px;
   height: 100px;
+}
+
+.buidables .description .tavern{
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 1fr;
+  border:black;
+  border-style: dotted;
 }
 
 .matsAndBuildTile {
@@ -472,6 +480,10 @@ span.mint::after {
   -1px 1px 0 #666,
   1px 1px 0 #666; 
   content: "\25c9";
+}
+
+span.buildableType::after{
+  content: "\2B24";
 }
 
 span.leaf::after {
