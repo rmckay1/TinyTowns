@@ -342,14 +342,6 @@ body {
   grid-column-end: 3;
   grid-row: 3;
   height: 70px;
-  width:100%;
-}
-
-.buidables .description .tavern{
-  grid-template-columns: 1fr;
-  grid-template-rows: 1fr 1fr;
-  border:black;
-  border-style: dotted;
 }
 
 .matsAndBuildTile {
@@ -409,8 +401,8 @@ body {
 }
 
 .recipe{
-  background-color: #ffe0cc;
-  border:2px solid rgb(178, 113, 83);
+  background-color: #6c2f07;
+  border: rgb(255, 255, 255);
   border-radius: 10px;
   text-shadow: 
   -1px -1px 0 #ffffff,
@@ -424,7 +416,6 @@ body {
   gap: 0px;
   grid-row-gap: 0;
   grid-column-gap: 0;
-  padding:2px;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr;
   height: 150px;
@@ -447,10 +438,6 @@ body {
 
 .blocks .tile{
   z-index: 1;
-}
-
-span.buildableType::after{
-  content: "\2B24";
 }
 
 span.blocks::after {
