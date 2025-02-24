@@ -384,7 +384,6 @@ body {
   height:50px;
 }
 
-
 .resources .card {
   border: 5px solid #6c2f07;
   background-color: #fbc079;
@@ -503,4 +502,10 @@ span.house::after {
   1px -1px 0 #666,
   -1px 1px 0 #666,
   1px 1px 0 #666; 
+}
+
+.hovered {
+  background-color: yellow !important;
+  z-index: 10;
+  cursor:pointer;
 }

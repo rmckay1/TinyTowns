@@ -721,8 +721,27 @@
 // }
 
 
-// document.addEventListener('DOMContentLoaded', function() {
-//   const game = new Game();
-//   game.startNewRound();
-// });
+// helper function to add hover class on mouseover, param is nodeList (querySelectorAll)
+function addHoverClass(nodeList) {
+    nodeList.forEach(function(element){
+        element.addEventListener('mouseover', function() {
+            element.classList.add('hovered');
+        });
+        element.addEventListener('mouseout', function(){
+            element.classList.remove('hovered');
+        });
+    });
+}
 
+document.addEventListener('DOMContentLoaded', function() {
+    // select all elements with the class tile that are inside an element with the class town
+    const townTiles = document.querySelectorAll('.town .tile');
+    // select all elements with the class resources that are inside an element with the class town
+    const resourceTiles = document.querySelectorAll('.matsAndBuildTile .resources .card');
+
+    // Iterate over each tile and add event listeners
+    addHoverClass(townTiles);
+    addHoverClass(resourceTiles);
+    // console.log(townTiles);
+    // console.log(resourceTiles);
+});
