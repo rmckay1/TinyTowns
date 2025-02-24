@@ -506,6 +506,8 @@ span.house::after {
 
 .hovered {
   background-color: yellow !important;
+  /* vvv this might cause an issue later but thats a future problem vvv */
   z-index: 10;
+  /* ^^^^^^^^^ */
   cursor:pointer;
 }

@@ -723,10 +723,14 @@
 
 // helper function to add hover class on mouseover, param is nodeList (querySelectorAll)
 function addHoverClass(nodeList) {
+    // for each element in the nodelist
     nodeList.forEach(function(element){
+        // add a mouseover event listener 
         element.addEventListener('mouseover', function() {
+            // assigns class list when hovered
             element.classList.add('hovered');
         });
+        // removes classlist when un-hovered
         element.addEventListener('mouseout', function(){
             element.classList.remove('hovered');
         });
@@ -736,7 +740,7 @@ function addHoverClass(nodeList) {
 document.addEventListener('DOMContentLoaded', function() {
     // select all elements with the class tile that are inside an element with the class town
     const townTiles = document.querySelectorAll('.town .tile');
-    // select all elements with the class resources that are inside an element with the class town
+    // select all elements with the classes .matsAndBuildTile .resources .card
     const resourceTiles = document.querySelectorAll('.matsAndBuildTile .resources .card');
 
     // Iterate over each tile and add event listeners
