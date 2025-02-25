@@ -728,9 +728,9 @@ function addHoverClass(nodeList) {
         // add a mouseover event listener 
         element.addEventListener('mouseover', function() {
             // assigns class list when hovered
-            if (element.style.backgroundColor != 'grey'){
-                element.classList.add('hovered');
-            }
+            // if (element.classList.contains("off")){
+                 element.classList.add('hovered');
+            // }
         });
         // removes classlist when un-hovered
         element.addEventListener('mouseout', function(){
@@ -739,17 +739,88 @@ function addHoverClass(nodeList) {
     });
 }
 
+// adding event listeners to all build tiles
 function addTileEventListener(nodeList) {
-    const resourceTiles = document.querySelectorAll('.matsAndBuildTile .resources .card');
-    console.log(resourceTiles);
+    const resourceTiles = document.getElementsByClassName("on");
     nodeList.forEach(function(element){
         // add a mouseover event listener 
         element.addEventListener('click', function() {
-            // assigns class list when hovered
-                if (element.style.backgroundColor == "grey")
-                    element.style.remove(backgroundColor);
+            resourceCardCleanup();
+            showOpenSlots(false);
+            // console.log(this.querySelector('span'));
+            this.querySelector('span').classList.add(selectedResource);
+            this.querySelector('span').classList.remove("invisible");
+            // console.log(this.querySelector('span').classList);
+            selectedResource = "inherit";
         });
-        // removes classlist when un-hovered
+    });
+}
+
+
+
+// Shows all empty slots on the build board. 
+// param == true means show all spots that are empty, 
+// param == false means hide all spots that are empty
+function showOpenSlots(Boolean) {
+    const squares = document.querySelectorAll('.town .tile .blocks');
+    // console.log(squares);
+    if (Boolean == true){
+        console.log("true!");
+
+        squares.forEach(function(span) {
+            if(span.classList.contains("invisible")){
+                span.classList.remove("invisible");
+            }   
+        });
+    } else {
+        console.log("false!");
+        squares.forEach(function(span) {
+            if (!span.classList.contains("wood") && !span.classList.contains("wheat") && !span.classList.contains("brick") && !span.classList.contains("glass") && !span.classList.contains("stone")) {
+                // console.log(span);
+                span.classList.add("invisible");
+            }
+        });
+    }
+
+}
+
+// Selecting/Deselecting of resource cards 
+function onOff(nodeList, param){
+    nodeList.forEach(function(element){
+        if (element.getAttribute("id") != param.getAttribute("id")) {
+            element.classList.remove('on');
+            element.classList.add('off');
+        }
+    });
+
+}
+
+// Adding event listeners to all resource cards, once you select a card, "deselect" all other cards and show all open spots to put blocks. 
+function resourceOnOffEventListener(nodeList) {
+
+    nodeList.forEach(function(element){
+        element.addEventListener('click', function() {
+            if (this.classList.contains('on')){
+                onOff(nodeList, this);
+                showOpenSlots(true);
+                selectedResource = this.getAttribute("id").split(' ')[1];
+                console.log(selectedResource);
+            } else {
+                resourceCardCleanup();
+            }
+
+        });
+    });
+}
+
+// Resetting resource cards to all are selectable
+function resourceCardCleanup(){
+    const nodeList = document.querySelectorAll('.resources .card'); 
+    nodeList.forEach(function(element){
+        if (element.classList.contains("off")){
+            element.classList.remove("off");
+            element.classList.add("on");
+        }
     });
 }
 
@@ -757,32 +828,19 @@ document.addEventListener('DOMContentLoaded', function() {
     // select all elements with the class tile that are inside an element with the class town
     const townTiles = document.querySelectorAll('.town .tile');
     // select all elements with the classes .matsAndBuildTile .resources .card
-    const resourceTiles = document.querySelectorAll('.matsAndBuildTile .resources .card');
-
-    const resource1 = document.getElementById("resource1");
-    const resource2 = document.getElementById("resource2");
-    const resource3 = document.getElementById("resource3");
+    const resourceTiles = document.querySelectorAll('.resources .card');
+    
+    const selectedResource = "inherit";
+    
+    console.log(selectedResource);
+    // console.log(resourceTiles);
 
     // Iterate over each tile and add event listeners
     addHoverClass(townTiles);
     addHoverClass(resourceTiles);
+    resourceOnOffEventListener(resourceTiles);
     addTileEventListener(townTiles);
     // console.log(townTiles);
-    // console.log(resourceTiles);
-
-
-
-
-    resource1.addEventListener('click', function() {
-        resource2.style.backgroundColor = 'grey';
-        resource2.classList.remove('hovered');
-        resource3.style.backgroundColor = 'grey';
-        resource3.classList.remove('hovered');
-
-
-
-        console.log('test');
-        console.log(resource2.classList);
-    });
+    // console.log(resourceTiles)
 
 });

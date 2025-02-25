@@ -370,7 +370,7 @@ body {
   padding:10px;
   gap:10px;
 }
-.resources {
+div.resources {
   align-items: center;
   justify-items: center;
   grid-row:1;
@@ -386,13 +386,17 @@ body {
 
 .resources .card {
   border: 5px solid #6c2f07;
-  background-color: #fbc079;
   padding: 50px;
 }
 
-.resources .card .off {
+.off {
   background-color: #666;
   cursor: not-allowed;
+}
+
+.on {
+  background-color: #fbc079 !important;
+  cursor: pointer;
 }
 
 .town {
@@ -453,26 +457,32 @@ body {
   height: 25px;
   border-radius: 2px;
   outline: white solid;
+  color:transparent;
 }
 
 .wood {
   background-color: #905a36;
+  display:unset;
 }
 
 .wheat {
   background-color: #fffa9e;
+  display:unset;
 }
 
 .brick {
   background-color: #9b3e0c;
+  display:unset;
 }
 
 .glass {
   background-color: #59dcd7;
+  display:unset;
 }
 
 .stone {
   background-color: #8e9a99;
+  display:unset;
 }
 
 
