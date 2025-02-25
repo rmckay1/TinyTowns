@@ -390,6 +390,11 @@ body {
   padding: 50px;
 }
 
+.resources .card .off {
+  background-color: #666;
+  cursor: not-allowed;
+}
+
 .town {
   grid-row: 1;
   grid-column: 2;
@@ -470,6 +475,10 @@ body {
   background-color: #8e9a99;
 }
 
+
+.invisible {
+  display:none
+}
 
 span.mint::after {
   color: #fff;

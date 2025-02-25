@@ -728,12 +728,28 @@ function addHoverClass(nodeList) {
         // add a mouseover event listener 
         element.addEventListener('mouseover', function() {
             // assigns class list when hovered
-            element.classList.add('hovered');
+            if (element.style.backgroundColor != 'grey'){
+                element.classList.add('hovered');
+            }
         });
         // removes classlist when un-hovered
         element.addEventListener('mouseout', function(){
             element.classList.remove('hovered');
         });
+    });
+}
+
+function addTileEventListener(nodeList) {
+    const resourceTiles = document.querySelectorAll('.matsAndBuildTile .resources .card');
+    console.log(resourceTiles);
+    nodeList.forEach(function(element){
+        // add a mouseover event listener 
+        element.addEventListener('click', function() {
+            // assigns class list when hovered
+                if (element.style.backgroundColor == "grey")
+                    element.style.remove(backgroundColor);
+        });
+        // removes classlist when un-hovered
     });
 }
 
@@ -743,9 +759,30 @@ document.addEventListener('DOMContentLoaded', function() {
     // select all elements with the classes .matsAndBuildTile .resources .card
     const resourceTiles = document.querySelectorAll('.matsAndBuildTile .resources .card');
 
+    const resource1 = document.getElementById("resource1");
+    const resource2 = document.getElementById("resource2");
+    const resource3 = document.getElementById("resource3");
+
     // Iterate over each tile and add event listeners
     addHoverClass(townTiles);
     addHoverClass(resourceTiles);
+    addTileEventListener(townTiles);
     // console.log(townTiles);
     // console.log(resourceTiles);
+
+
+
+
+    resource1.addEventListener('click', function() {
+        resource2.style.backgroundColor = 'grey';
+        resource2.classList.remove('hovered');
+        resource3.style.backgroundColor = 'grey';
+        resource3.classList.remove('hovered');
+
+
+
+        console.log('test');
+        console.log(resource2.classList);
+    });
+
 });
