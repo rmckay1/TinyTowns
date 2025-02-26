@@ -721,6 +721,7 @@
 // }
 
 
+
 // helper function to add hover class on mouseover, param is nodeList (querySelectorAll)
 function addHoverClass(nodeList) {
     // for each element in the nodelist
@@ -740,21 +741,49 @@ function addHoverClass(nodeList) {
 }
 
 // adding event listeners to all build tiles
-function addTileEventListener(nodeList) {
-    const resourceTiles = document.getElementsByClassName("on");
-    nodeList.forEach(function(element){
-        // add a mouseover event listener 
+function addTileEventListener(nodeList, game) {
+    nodeList.forEach(function(element) {
         element.addEventListener('click', function() {
-            resourceCardCleanup();
-            showOpenSlots(false);
-            // console.log(this.querySelector('span'));
+            if (!selectedResource) return;
+            
             this.querySelector('span').classList.add(selectedResource);
             this.querySelector('span').classList.remove("invisible");
-            // console.log(this.querySelector('span').classList);
-            selectedResource = "inherit";
+            console.log(`Placed resource: ${selectedResource} at (${element.dataset.row}, ${element.dataset.col})`);
+
+            removeUsedResourceCard(selectedResource, game);
+            
+            resourceCardCleanup();
+            showOpenSlots(false);
+            selectedResource = null;
         });
     });
 }
+
+function removeUsedResourceCard(resourceType, game) {
+    const resourcesDiv = document.getElementById("resources");
+    const resourceCards = document.querySelectorAll(".resources .card");
+
+    for (let card of resourceCards) {
+        if (card.dataset.resource === resourceType) {
+            card.remove(); // Remove the used resource card
+
+            // Draw a new card and add it to the UI
+            let newResource = document.createElement("div");
+            let newType = game.drawCard();
+            if (!newType) return; // Deck might be empty
+            
+            newResource.classList.add("resource", "card", "on");
+            newResource.innerHTML = `<span class="${newType} blocks"></span><br>${newType}`;
+            newResource.dataset.resource = newType;
+            resourcesDiv.appendChild(newResource);
+
+            // Reattach event listeners to the new card
+            resourceOnOffEventListener([newResource]);
+            break;
+        }
+    }
+}
+
 
 
 
@@ -787,7 +816,8 @@ function showOpenSlots(Boolean) {
 // Selecting/Deselecting of resource cards 
 function onOff(nodeList, param){
     nodeList.forEach(function(element){
-        if (element.getAttribute("id") != param.getAttribute("id")) {
+        console.log();
+        if (element.dataset.cardNum != param.dataset.cardNum) {
             element.classList.remove('on');
             element.classList.add('off');
         }
@@ -803,7 +833,7 @@ function resourceOnOffEventListener(nodeList) {
             if (this.classList.contains('on')){
                 onOff(nodeList, this);
                 showOpenSlots(true);
-                selectedResource = this.getAttribute("id").split(' ')[1];
+                selectedResource = this.dataset.resource;
                 console.log(selectedResource);
             } else {
                 resourceCardCleanup();
@@ -824,7 +854,7 @@ function resourceCardCleanup(){
     });
 }
 
-document.addEventListener('DOMContentLoaded', function() {
+function addHoverBehavior(game) {
     // select all elements with the class tile that are inside an element with the class town
     const townTiles = document.querySelectorAll('.town .tile');
     // select all elements with the classes .matsAndBuildTile .resources .card
@@ -839,8 +869,146 @@ document.addEventListener('DOMContentLoaded', function() {
     addHoverClass(townTiles);
     addHoverClass(resourceTiles);
     resourceOnOffEventListener(resourceTiles);
-    addTileEventListener(townTiles);
+    addTileEventListener(townTiles, game);
     // console.log(townTiles);
     // console.log(resourceTiles)
 
+}
+
+//Sets up the 3 resource cards
+function resourcesSetUp(game) {
+    const resources = document.getElementById("resources");
+    for (let i = 0; i < 3; i++) {
+        let resource = document.createElement("div");
+        let type = game.drawCard();
+        resource.classList.add("resource");
+        resource.classList.add("card");
+        resource.classList.add("on");
+        resource.innerHTML = `<span class="${type} blocks"></span><br>${type}`;
+        resource.dataset.resource = type;
+        resource.dataset.cardNum = i;
+        resources.appendChild(resource);
+    }
+}
+
+
+
+//Sets up the town grid dynamically
+function setUpTownGrid() {
+    const town = document.getElementById("town");
+
+    for (let row= 0; row < 4; row++) {
+        for (let col = 0; col < 4; col++) {
+            let tile = document.createElement("div");
+            tile.classList.add("tile");
+            tile.dataset.row = row;
+            tile.dataset.col = col;
+            tile.innerHTML = `<span class="blocks invisible"></span>`;
+            town.appendChild(tile);
+        }
+    }
+}
+
+class Game {
+    constructor() {
+        this.deck = ["wood", "wood", "wood", "wheat", "wheat", "wheat", "brick", "brick", "brick", "glass", "glass", "glass", "stone", "stone", "stone"];
+    }
+
+    //ripped from stackoverflow, sorry dr. garret
+    shuffleDeck() {
+        
+        let currentIndex = this.deck.length;
+        
+        // While there remain elements to shuffle...
+        while (currentIndex != 0) {
+        
+            // Pick a remaining element...
+            let randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex--;
+        
+            // And swap it with the current element.
+            [this.deck[currentIndex], this.deck[randomIndex]] = [this.deck[randomIndex], this.deck[currentIndex]];
+        }
+    }
+
+    drawCard() {
+        return this.deck.shift();
+    }
+
+    putCardUnderDeck(card) {
+        this.deck.push(card);
+    }
+
+    getDeck() {
+        return this.deck;
+    }
+
+    useResource(element) {
+        let cardNum = element;
+    }
+
+    
+
+    startGame() {
+        this.shuffleDeck();
+        setUpTownGrid();
+        resourcesSetUp(this);
+        addHoverBehavior(this);
+    }
+
+}
+
+class building {
+    constructor(recipe) {
+        this.recipe = recipe;
+    }
+}
+
+
+
+class townGrid {
+    constructor() {
+        this.grid = [
+            ["", "", "", ""],
+            ["", "", "", ""],
+            ["", "", "", ""]
+        ];
+    }
+
+    placeResource(r, c, resource) {
+        if (this.grid[r][c] != "") {
+            this.grid[r][c] = resource;
+        }
+    }
+
+    getResource(r, c) {
+        if (this.grid[r][c] != "") {
+            return this.grid[r][c];
+        }
+    }
+}
+
+const cottage = new building([
+    ["", "", "", ""],
+    ["", ],
+    []
+]);
+
+
+function checkValidRecipe(recipe, selected) {
+
+}
+
+//This is the function to start the game. keep this at the end
+document.addEventListener('DOMContentLoaded', function startGame() {
+    const game = new Game();
+    game.startGame();
+
+    // console.log(game.getDeck());
+    // game.shuffleDeck();
+    // console.log(game.getDeck());
+    // console.log(game.drawCard());
+    // console.log(game.getDeck());
+    // game.putCardUnderDeck("card___");
+    // console.log(game.getDeck());
 });
