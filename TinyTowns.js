@@ -719,8 +719,34 @@
 //     }
 //   }
 // }
+class TownGrid {
+    constructor() {
+        this.grid = [
+            ["", "", "", ""],
+            ["", "", "", ""],
+            ["", "", "", ""],
+            ["", "", "", ""]
+        ];
+    }
 
+    placeResource(r, c, resource) {
+        if (this.grid[r][c] == "") {
+            this.grid[r][c] = resource;
+        }
+    }
 
+    getResource(r, c) {
+        if (this.grid[r][c] != "") {
+            return this.grid[r][c];
+        }
+    }
+
+    getGrid() {
+        return this.grid;
+    }
+}
+
+const townGrid = new TownGrid();
 
 // helper function to add hover class on mouseover, param is nodeList (querySelectorAll)
 function addHoverClass(nodeList) {
@@ -741,17 +767,20 @@ function addHoverClass(nodeList) {
 }
 
 // adding event listeners to all build tiles
-function addTileEventListener(nodeList, game) {
+function addTileEventListener(nodeList, deck) {
     nodeList.forEach(function(element) {
         element.addEventListener('click', function() {
             if (!selectedResource) return;
             
             this.querySelector('span').classList.add(selectedResource);
             this.querySelector('span').classList.remove("invisible");
-            console.log(`Placed resource: ${selectedResource} at (${element.dataset.row}, ${element.dataset.col})`);
 
-            removeUsedResourceCard(selectedResource, game);
-            
+            townGrid.placeResource(element.dataset.row, element.dataset.col, selectedResource);
+            console.log(`Placed resource: ${selectedResource} at (${element.dataset.row}, ${element.dataset.col})`);
+            console.log(townGrid.getGrid());
+
+            replaceUsedResourceCard(deck);
+            deck.setCurCard(null);
             resourceCardCleanup();
             showOpenSlots(false);
             selectedResource = null;
@@ -759,26 +788,20 @@ function addTileEventListener(nodeList, game) {
     });
 }
 
-function removeUsedResourceCard(resourceType, game) {
-    const resourcesDiv = document.getElementById("resources");
+function replaceUsedResourceCard(deck) {
     const resourceCards = document.querySelectorAll(".resources .card");
 
     for (let card of resourceCards) {
-        if (card.dataset.resource === resourceType) {
-            card.remove(); // Remove the used resource card
+        if (card.dataset.cardNum === deck.getCurCard()) {
+            let newType = deck.drawCard()
+            let span = card.querySelector("span");
+            span.className = `${newType} blocks`;
+            card.innerHTML = `<span class="${newType} blocks"></span><br>${newType}`;
+            card.dataset.resource = newType;
+            console.log(deck.getDeck())
 
-            // Draw a new card and add it to the UI
-            let newResource = document.createElement("div");
-            let newType = game.drawCard();
-            if (!newType) return; // Deck might be empty
-            
-            newResource.classList.add("resource", "card", "on");
-            newResource.innerHTML = `<span class="${newType} blocks"></span><br>${newType}`;
-            newResource.dataset.resource = newType;
-            resourcesDiv.appendChild(newResource);
+            console.log(`Replaced card ${deck.getCurCard()} with ${newType}`);
 
-            // Reattach event listeners to the new card
-            resourceOnOffEventListener([newResource]);
             break;
         }
     }
@@ -826,13 +849,14 @@ function onOff(nodeList, param){
 }
 
 // Adding event listeners to all resource cards, once you select a card, "deselect" all other cards and show all open spots to put blocks. 
-function resourceOnOffEventListener(nodeList) {
+function resourceOnOffEventListener(nodeList, deck) {
 
     nodeList.forEach(function(element){
         element.addEventListener('click', function() {
             if (this.classList.contains('on')){
                 onOff(nodeList, this);
                 showOpenSlots(true);
+                deck.setCurCard(this.dataset.cardNum);
                 selectedResource = this.dataset.resource;
                 console.log(selectedResource);
             } else {
@@ -854,7 +878,7 @@ function resourceCardCleanup(){
     });
 }
 
-function addHoverBehavior(game) {
+function addHoverBehavior(deck) {
     // select all elements with the class tile that are inside an element with the class town
     const townTiles = document.querySelectorAll('.town .tile');
     // select all elements with the classes .matsAndBuildTile .resources .card
@@ -868,19 +892,19 @@ function addHoverBehavior(game) {
     // Iterate over each tile and add event listeners
     addHoverClass(townTiles);
     addHoverClass(resourceTiles);
-    resourceOnOffEventListener(resourceTiles);
-    addTileEventListener(townTiles, game);
+    resourceOnOffEventListener(resourceTiles, deck);
+    addTileEventListener(townTiles, deck);
     // console.log(townTiles);
     // console.log(resourceTiles)
 
 }
 
 //Sets up the 3 resource cards
-function resourcesSetUp(game) {
+function resourcesSetUp(deck) {
     const resources = document.getElementById("resources");
     for (let i = 0; i < 3; i++) {
         let resource = document.createElement("div");
-        let type = game.drawCard();
+        let type = deck.drawCard();
         resource.classList.add("resource");
         resource.classList.add("card");
         resource.classList.add("on");
@@ -911,12 +935,30 @@ function setUpTownGrid() {
 
 class Game {
     constructor() {
+        this.deck = new Deck()
+    }
+
+    useResource(element) {
+        let cardNum = element;
+    }
+
+    startGame() {
+        setUpTownGrid();
+        resourcesSetUp(this.deck);
+        addHoverBehavior(this.deck);
+    }
+
+}
+
+class Deck {
+    constructor() {
         this.deck = ["wood", "wood", "wood", "wheat", "wheat", "wheat", "brick", "brick", "brick", "glass", "glass", "glass", "stone", "stone", "stone"];
+        this.curCard = null;
+        this.shuffleDeck();
     }
 
     //ripped from stackoverflow, sorry dr. garret
     shuffleDeck() {
-        
         let currentIndex = this.deck.length;
         
         // While there remain elements to shuffle...
@@ -943,48 +985,22 @@ class Game {
         return this.deck;
     }
 
-    useResource(element) {
-        let cardNum = element;
+    setCurCard(cardNum) {
+        this.curCard = cardNum;
     }
 
-    
-
-    startGame() {
-        this.shuffleDeck();
-        setUpTownGrid();
-        resourcesSetUp(this);
-        addHoverBehavior(this);
+    getCurCard() {
+        return this.curCard;
     }
-
 }
+
+
+
+
 
 class building {
     constructor(recipe) {
         this.recipe = recipe;
-    }
-}
-
-
-
-class townGrid {
-    constructor() {
-        this.grid = [
-            ["", "", "", ""],
-            ["", "", "", ""],
-            ["", "", "", ""]
-        ];
-    }
-
-    placeResource(r, c, resource) {
-        if (this.grid[r][c] != "") {
-            this.grid[r][c] = resource;
-        }
-    }
-
-    getResource(r, c) {
-        if (this.grid[r][c] != "") {
-            return this.grid[r][c];
-        }
     }
 }
 
