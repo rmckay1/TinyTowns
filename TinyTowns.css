@@ -365,15 +365,17 @@ body {
 
 .matsAndBuildTile {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   grid-row: 1fr;
   padding:10px;
+  width: 100%;
   gap:10px;
+  row-gap: 250px;
 }
 .resources {
   align-items: center;
   justify-items: center;
-  grid-row:1;
+  grid-row: 1;
   grid-column: 1;
   grid-template-columns: 1fr;
   grid-template-rows: 1fr 1fr 1fr;
@@ -431,8 +433,23 @@ body {
   margin: auto;
 }
 
+.greenBorder {
+  border:green 7px solid;
+}
+
 .mint {
   color:greenyellow;
+}
+
+.button{
+  grid-row: 1;
+  grid-column: 3 !important;
+  background-color: #fbc079;
+  border-radius: 5px;
+  height:90px;
+  width:90px;
+  align-content: center;
+  cursor: pointer;
 }
 
 .recipe {

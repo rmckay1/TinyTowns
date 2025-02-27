@@ -770,7 +770,9 @@ function addHoverClass(nodeList) {
 function addTileEventListener(nodeList, deck) {
     nodeList.forEach(function(element) {
         element.addEventListener('click', function() {
-            if (!selectedResource) return;
+            if (!selectedResource) {
+                if (element.classList.contains('greenBorder')) { element.classList.remove('greenBorder');} else {element.classList.add('greenBorder');}
+            };
             
             this.querySelector('span').classList.add(selectedResource);
             this.querySelector('span').classList.remove("invisible");
@@ -782,7 +784,8 @@ function addTileEventListener(nodeList, deck) {
             replaceUsedResourceCard(deck);
             deck.setCurCard(null);
             resourceCardCleanup();
-            showOpenSlots(false);
+            enablePlacement = false;
+            showOpenSlots(enablePlacement);
             selectedResource = null;
         });
     });
@@ -816,36 +819,79 @@ function replaceUsedResourceCard(deck) {
 function showOpenSlots(Boolean) {
     const squares = document.querySelectorAll('.town .tile .blocks');
     // console.log(squares);
-    if (Boolean == true){
-        console.log("true!");
+    // if (enablePlacement == true) {
+        if (Boolean == true){
+            console.log("true case for showOpenSlots!");
 
-        squares.forEach(function(span) {
-            if(span.classList.contains("invisible")){
-                span.classList.remove("invisible");
-            }   
-        });
-    } else {
-        console.log("false!");
-        squares.forEach(function(span) {
-            if (!span.classList.contains("wood") && !span.classList.contains("wheat") && !span.classList.contains("brick") && !span.classList.contains("glass") && !span.classList.contains("stone")) {
-                // console.log(span);
-                span.classList.add("invisible");
-            }
-        });
-    }
+            squares.forEach(function(span) {
+                if(span.classList.contains("invisible")){
+                    span.classList.remove("invisible");
+                }   
+            });
+        } else {
+            console.log("false case for showOpenSlots!");
+            squares.forEach(function(span) {
+                if (!span.classList.contains("wood") && !span.classList.contains("wheat") && !span.classList.contains("brick") && !span.classList.contains("glass") && !span.classList.contains("stone")) {
+                    // console.log(span);
+                    span.classList.add("invisible");
+                }
+            });
+        }
+    // }
+}
 
+function clearBuildSelection() {
+    const squares = document.querySelectorAll('.town .tile');
+    console.log("button pressed!");
+    squares.forEach(function(span) {
+        if(span.classList.contains("greenBorder")){
+            span.classList.remove("greenBorder");
+        }   
+    });
 }
 
 // Selecting/Deselecting of resource cards 
-function onOff(nodeList, param){
-    nodeList.forEach(function(element){
-        console.log();
-        if (element.dataset.cardNum != param.dataset.cardNum) {
-            element.classList.remove('on');
-            element.classList.add('off');
-        }
-    });
+function onOff(nodeList, param, enablePlacement){
+    const resourceCards = document.querySelectorAll('.resources .card');
+    if (gameStarted){
+        showOpenSlots(true);
+        console.log('game start case for enableplacement hit!');
+        gameStarted = false;
+        return enablePlacement = true;
+    }
 
+    if (enablePlacement == true && param.classList.contains('on') && 
+        (resourceCards[0].classList.contains('off') || 
+         resourceCards[1].classList.contains('off') || 
+         resourceCards[2].classList.contains('off'))) {
+        resourceCardCleanup();
+        showOpenSlots(enablePlacement);
+        console.log('Odd case for enablePlacement hit!');
+        return enablePlacement = true;
+    }
+
+
+    if (enablePlacement == true) {
+        console.log("TRUE case for enablePlacement");
+        resourceCards.forEach(function(element) {
+            element.classList.remove('off');
+            element.classList.add('on');
+        });
+        showOpenSlots(enablePlacement);
+        return enablePlacement = false;
+    
+    } else {
+
+        console.log("FALSE case for enablePlacement");
+        nodeList.forEach(function(element) {
+            if (element.dataset.cardNum != param.dataset.cardNum) {
+                element.classList.remove('on');
+                element.classList.add('off');
+            }
+        });
+        showOpenSlots(enablePlacement);
+        return enablePlacement = true; 
+    }
 }
 
 // Adding event listeners to all resource cards, once you select a card, "deselect" all other cards and show all open spots to put blocks. 
@@ -854,8 +900,7 @@ function resourceOnOffEventListener(nodeList, deck) {
     nodeList.forEach(function(element){
         element.addEventListener('click', function() {
             if (this.classList.contains('on')){
-                onOff(nodeList, this);
-                showOpenSlots(true);
+                onOff(nodeList, this, enablePlacement);
                 deck.setCurCard(this.dataset.cardNum);
                 selectedResource = this.dataset.resource;
                 console.log(selectedResource);
@@ -886,12 +931,14 @@ function addHoverBehavior(deck) {
     
     const selectedResource = "inherit";
     
-    console.log(selectedResource);
+    const button = document.querySelectorAll('.button');
+    //console.log(selectedResource);
     // console.log(resourceTiles);
 
     // Iterate over each tile and add event listeners
     addHoverClass(townTiles);
     addHoverClass(resourceTiles);
+    addHoverClass(button);
     resourceOnOffEventListener(resourceTiles, deck);
     addTileEventListener(townTiles, deck);
     // console.log(townTiles);
@@ -1014,7 +1061,9 @@ const cottage = new building([
 function checkValidRecipe(recipe, selected) {
 
 }
-
+// global variables, keep at the bottom so we can keep track in one place
+let enablePlacement = false;
+let gameStarted = true;
 //This is the function to start the game. keep this at the end
 document.addEventListener('DOMContentLoaded', function startGame() {
     const game = new Game();
