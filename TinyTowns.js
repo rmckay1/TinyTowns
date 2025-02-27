@@ -803,6 +803,7 @@ function replaceUsedResourceCard(deck) {
 
     for (let card of resourceCards) {
         if (card.dataset.cardNum === deck.getCurCard()) {
+            deck.putCardUnderDeck(card.dataset.resource);
             let newType = deck.drawCard()
             let span = card.querySelector("span");
             span.className = `${newType} blocks`;
@@ -1102,8 +1103,8 @@ function getSubMatrix(matrix) {
 
 function checkValidRecipe(recipe, sub) {
 
-    console.log(recipe);
-    console.log(sub);
+    //console.log(recipe);
+    //console.log(sub);
     if (sub.length == recipe.length) {
         if (sub[0].length == recipe[0].length) {
             for (let r = 0; r < sub.length; r++) {
@@ -1126,11 +1127,11 @@ function checkValidPattern(recipes, selectedCoords) {
     let fullMat = [["", "", "", ""],["", "", "", ""],["", "", "", ""],["", "", "", ""]];
     for (let i = 0; i < selectedCoords.length; i++) {
         let coord = selectedCoords[i];
-        console.log(coord);
+        //console.log(coord);
         fullMat[coord[0]][coord[1]] = townGrid.getGrid()[coord[0]][coord[1]];
     }
 
-    console.log(fullMat);
+    //console.log(fullMat);
 
     let sub = getSubMatrix(fullMat);
 
