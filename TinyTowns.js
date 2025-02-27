@@ -773,6 +773,10 @@ function addTileEventListener(nodeList, deck) {
             if (!selectedResource) {
                 if (element.classList.contains('greenBorder')) { element.classList.remove('greenBorder');} else {element.classList.add('greenBorder');}
             };
+
+            if (selectedResource == "inherit"){
+                return;
+            }
             
             this.querySelector('span').classList.add(selectedResource);
             this.querySelector('span').classList.remove("invisible");
@@ -784,8 +788,7 @@ function addTileEventListener(nodeList, deck) {
             replaceUsedResourceCard(deck);
             deck.setCurCard(null);
             resourceCardCleanup();
-            enablePlacement = false;
-            showOpenSlots(enablePlacement);
+            showOpenSlots(false);
             selectedResource = null;
         });
     });
@@ -851,34 +854,27 @@ function clearBuildSelection() {
 }
 
 // Selecting/Deselecting of resource cards 
-function onOff(nodeList, param, enablePlacement){
+function onOff(nodeList, param){
     const resourceCards = document.querySelectorAll('.resources .card');
-    if (gameStarted){
-        showOpenSlots(true);
-        console.log('game start case for enableplacement hit!');
-        gameStarted = false;
-        return enablePlacement = true;
-    }
-
-    if (enablePlacement == true && param.classList.contains('on') && 
+    if (param.classList.contains('on') && 
         (resourceCards[0].classList.contains('off') || 
          resourceCards[1].classList.contains('off') || 
          resourceCards[2].classList.contains('off'))) {
         resourceCardCleanup();
-        showOpenSlots(enablePlacement);
+        showOpenSlots(false);
         console.log('Odd case for enablePlacement hit!');
-        return enablePlacement = true;
-    }
+        // return enablePlacement = true;
+    // }
 
 
-    if (enablePlacement == true) {
-        console.log("TRUE case for enablePlacement");
-        resourceCards.forEach(function(element) {
-            element.classList.remove('off');
-            element.classList.add('on');
-        });
-        showOpenSlots(enablePlacement);
-        return enablePlacement = false;
+    // if (enablePlacement == true) {
+    //     console.log("TRUE case for enablePlacement");
+    //     resourceCards.forEach(function(element) {
+    //         element.classList.remove('off');
+    //         element.classList.add('on');
+    //     });
+    //     showOpenSlots(true);
+    //     // return enablePlacement = true;
     
     } else {
 
@@ -887,10 +883,10 @@ function onOff(nodeList, param, enablePlacement){
             if (element.dataset.cardNum != param.dataset.cardNum) {
                 element.classList.remove('on');
                 element.classList.add('off');
+                showOpenSlots(true);
             }
         });
-        showOpenSlots(enablePlacement);
-        return enablePlacement = true; 
+        // return enablePlacement = true; 
     }
 }
 
@@ -899,13 +895,16 @@ function resourceOnOffEventListener(nodeList, deck) {
 
     nodeList.forEach(function(element){
         element.addEventListener('click', function() {
+
             if (this.classList.contains('on')){
-                onOff(nodeList, this, enablePlacement);
+                onOff(nodeList, this);
                 deck.setCurCard(this.dataset.cardNum);
                 selectedResource = this.dataset.resource;
                 console.log(selectedResource);
             } else {
                 resourceCardCleanup();
+                showOpenSlots(false);
+                selectedResource = undefined;
             }
 
         });
@@ -914,7 +913,8 @@ function resourceOnOffEventListener(nodeList, deck) {
 
 // Resetting resource cards to all are selectable
 function resourceCardCleanup(){
-    const nodeList = document.querySelectorAll('.resources .card'); 
+    const nodeList = document.querySelectorAll('.resources .card');
+    selectedResource = null; 
     nodeList.forEach(function(element){
         if (element.classList.contains("off")){
             element.classList.remove("off");
@@ -1062,8 +1062,7 @@ function checkValidRecipe(recipe, selected) {
 
 }
 // global variables, keep at the bottom so we can keep track in one place
-let enablePlacement = false;
-let gameStarted = true;
+// let enablePlacement = true;
 //This is the function to start the game. keep this at the end
 document.addEventListener('DOMContentLoaded', function startGame() {
     const game = new Game();
