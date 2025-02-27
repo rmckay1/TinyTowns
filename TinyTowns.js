@@ -744,6 +744,10 @@ class TownGrid {
     getGrid() {
         return this.grid;
     }
+
+    setGrid(grid) {
+        this.grid = grid;
+    }
 }
 
 const townGrid = new TownGrid();
@@ -1045,22 +1049,108 @@ class Deck {
 
 
 
-class building {
-    constructor(recipe) {
-        this.recipe = recipe;
+class Recipe {
+    constructor(type, recipes) {
+        this.type = type;
+        this.recipes = recipes;
+    }
+
+    getRecipes() {
+        return this.recipes;
+    }
+
+    getType() {
+        return this.type;
     }
 }
 
-const cottage = new building([
-    ["", "", "", ""],
-    ["", ],
-    []
-]);
+const cottageRec = new Recipe("cottage", [
+    [["", "wheat"], ["brick", "glass"]],  // Original
+    [["brick", ""], ["glass", "wheat"]],  // 90° rotation
+    [["glass", "brick"], ["wheat", ""]],  // 180° rotation
+    [["wheat", "glass"], ["", "brick"]],  // 270° rotation
+    [["wheat", ""], ["glass", "brick"]],  // Horizontal flip
+    [["brick", "glass"], ["", "wheat"]],  // Vertical flip
+    [["", "brick"], ["wheat", "glass"]],  // Main diagonal flip
+    [["glass", "wheat"], ["brick", ""]]   // Anti-diagonal flip
+    ]);
+
+const theatreRec = new Recipe("theatre", [
+    [ ["", "stone", ""],  ["wood", "glass", "wood"] ],  // Original
+    [ ["wood", ""], ["glass", "stone"], ["wood", ""] ], // 90° Rotation
+    [ ["wood", "glass", "wood"], ["", "stone", ""] ],   // 180° Rotation
+    [ ["", "wood"], ["stone", "glass"], ["", "wood"] ], // 270° Rotation
+    [ ["", "stone", ""], ["wood", "glass", "wood"] ],   // Horizontal Flip (same as original)
+    [ ["wood", "glass", "wood"], ["", "stone", ""] ],   // Vertical Flip
+    [ ["", "wood"], ["stone", "glass"], ["", "wood"] ], // Main Diagonal Flip
+    [ ["wood", ""], ["glass", "stone"], ["wood", ""] ]  // Anti-Diagonal Flip
+    ]);
 
 
-function checkValidRecipe(recipe, selected) {
+function getSubMatrix(matrix) {
+    let nonEmptyRows = matrix.filter(row => row.some(cell => cell !== ""));
+    let nonEmptyCols = [];
+    for (let col = 0; col < nonEmptyRows[0].length; col++) {
+        if (nonEmptyRows.some(row => row[col] !== "")) {
+            nonEmptyCols.push(col);
+        }
+    }
 
+    return nonEmptyRows.map(row => nonEmptyCols.map(col => row[col]));
 }
+
+
+function checkValidRecipe(recipe, sub) {
+
+    console.log(recipe);
+    console.log(sub);
+    if (sub.length == recipe.length) {
+        if (sub[0].length == recipe[0].length) {
+            for (let r = 0; r < sub.length; r++) {
+                for (let c = 0; c < sub[0].length; c++) {
+                    if (sub[r][c] !== recipe[r][c]) {
+                        return false;
+                    }
+                }
+            }
+        } else {
+            return false;
+        }
+    } else {
+        return false;
+    }
+    return true;
+}
+
+function checkValidPattern(recipes, selectedCoords) {
+    let fullMat = [["", "", "", ""],["", "", "", ""],["", "", "", ""],["", "", "", ""]];
+    for (let i = 0; i < selectedCoords.length; i++) {
+        let coord = selectedCoords[i];
+        console.log(coord);
+        fullMat[coord[0]][coord[1]] = townGrid.getGrid()[coord[0]][coord[1]];
+    }
+
+    console.log(fullMat);
+
+    let sub = getSubMatrix(fullMat);
+
+    for (let i = 0; i < 8; i++) {
+        if (checkValidRecipe(recipes[i], sub)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+// townGrid.setGrid([
+//     ["", "", "", ""],
+//     ["", "", "", ""],
+//     ["glass", "wheat", "", ""],
+//     ["brick", "wheat", "", ""]
+// ]);
+
+// console.log(`TF: ${checkValidPattern(cottageRec.getRecipes(), [[2,0],[2,1],[3,0]])}`);
+
 // global variables, keep at the bottom so we can keep track in one place
 // let enablePlacement = true;
 //This is the function to start the game. keep this at the end
