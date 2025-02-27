@@ -904,7 +904,7 @@ function resourceOnOffEventListener(nodeList, deck) {
             } else {
                 resourceCardCleanup();
                 showOpenSlots(false);
-                selectedResource = undefined;
+                selectedResource = "inherit";
             }
 
         });
