@@ -719,6 +719,8 @@
 //     }
 //   }
 // }
+const selectedCoords = new Set();
+
 class TownGrid {
     constructor() {
         this.grid = [
@@ -775,13 +777,23 @@ function addTileEventListener(nodeList, deck) {
     nodeList.forEach(function(element) {
         element.addEventListener('click', function() {
             if (!selectedResource) {
-                if (element.classList.contains('greenBorder')) { element.classList.remove('greenBorder');} else {element.classList.add('greenBorder');}
-            };
+                if (element.classList.contains('greenBorder')) {
+                    element.classList.remove('greenBorder');
+                    selectedCoords.delete([element.dataset.row, element.dataset.col]);
+                } else {
+                    element.classList.add('greenBorder');
+                    selectedCoords.add([element.dataset.row, element.dataset.col]);
+                }
+            }
 
-            if (selectedResource == "inherit"){
+            if (selectedResource == "inherit" || selectedResource == null){
                 return;
             }
-            
+            console.log(`Selected Coords:`);
+            for (const coord of selectedCoords) {
+                console.log(coord);
+            }
+
             this.querySelector('span').classList.add(selectedResource);
             this.querySelector('span').classList.remove("invisible");
 
