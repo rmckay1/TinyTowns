@@ -789,7 +789,7 @@ function addTileEventListener(nodeList, deck) {
             }
 
 
-            if (!selectedResource) {
+            if (!selectedResource && element.querySelector('span').classList.contains("cottage") == false && element.querySelector('span').classList.contains("theatre") == false) {
                 if (element.classList.contains('greenBorder')) {
                     element.classList.remove('greenBorder');
                     selectedCoords.delete([element.dataset.row, element.dataset.col]);
@@ -811,12 +811,13 @@ function addTileEventListener(nodeList, deck) {
             for (const coord of selectedCoords) {
                 console.log(coord);
             }
-            if (selectedResource == "inherit" || selectedResource == null){
+            if (selectedResource == "inherit" || selectedResource == null || this.querySelector('span').classList.contains('wood') || this.querySelector('span').classList.contains('wheat') || this.querySelector('span').classList.contains('brick') || this.querySelector('span').classList.contains('glass') || this.querySelector('span').classList.contains('stone')){
                 return;
             }
             this.querySelector('span').classList.add(selectedResource);
             this.querySelector('span').classList.remove("invisible");
 
+            
             townGrid.placeResource(element.dataset.row, element.dataset.col, selectedResource);
             // console.log(`Placed resource: ${selectedResource} at (${element.dataset.row}, ${element.dataset.col})`);
             // console.log(townGrid.getGrid());
