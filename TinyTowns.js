@@ -933,7 +933,7 @@ function onOff(nodeList, param){
 
 // this function handles structure placement and resets other blocks to empty board (default)
 function placeStructure(element, structure) {
-    if (confirm("do you want to build a " + structure + "?")) {
+    if (confirm("do you want to build a " + structure + "?") && element.classList.contains('greenBorder')) {
         console.log('structure is ' + structure);
         // reset selected resource
         selectedResource = null;
@@ -961,6 +961,9 @@ function placeStructure(element, structure) {
         });
     // clear all selected tiles, ** this also clears selectedCoords **
     clearBuildSelection(); 
+    } else {
+        document.getElementById(structure).classList.remove("hovered");
+        clearBuildSelection();  
     }
 }
 
