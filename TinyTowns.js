@@ -775,26 +775,17 @@ function addHoverClass(nodeList) {
 function addTileEventListener(nodeList, deck) {
     nodeList.forEach(function(element) {
         element.addEventListener('click', function() {
+
             if(document.getElementById("cottage").classList.contains('hovered')) {
-                if (confirm("do you want to build a cottage?") == true){
-                    selectedResource = null;
-                    element.innerHTML = `<span class="cottage"></span>`;
-                    element.classList.remove('greenBorder', 'hovered');
-                    townGrid.placeResource(element.dataset.row, element.dataset.col, 'cottage');
-                    placeStructure("cottage");
-                    return; 
-                }
+                placeStructure(element, "cottage");
+                // return to prevent other onclick events from happening
+                return;
             }
 
             if(document.getElementById("theatre").classList.contains('hovered')) {
-                if (confirm("do you want to build a theatre?") == true){
-                    selectedResource = null;
-                    element.innerHTML = `<span class="theatre"></span>`;
-                    element.classList.remove('greenBorder', 'hovered');
-                    townGrid.placeResource(element.dataset.row, element.dataset.col, 'theatre');
-                    placeStructure("theatre", nodeList);
-                    return; 
-                }
+                placeStructure(element, "theatre");
+                // return to prevent other onclick events from happening
+                return;
             }
 
 
@@ -837,6 +828,7 @@ function addTileEventListener(nodeList, deck) {
             selectedResource = null;
         });
     });
+    ;
 }
 
 function replaceUsedResourceCard(deck) {
@@ -939,23 +931,36 @@ function onOff(nodeList, param){
 }
 
 // this function handles structure placement and resets other blocks to empty board (default)
-function placeStructure(structure) {
-    // remove the hovered (highlight) from what structure you are building
-    document.getElementById(structure).classList.remove("hovered");
+function placeStructure(element, structure) {
+    if (confirm("do you want to build a " + structure + "?")) {
+        console.log('structure is ' + structure);
+        // reset selected resource
+        selectedResource = null;
+        // set the span class (block) to its structure
+        element.innerHTML = `<span class="${structure}"></span>`;
+        // remove the selected border (greenBorder) from the element you clicked to build a structure upon
+        element.classList.remove('greenBorder', 'hovered');
+        console.log('element is ' + element.classList);
+        // place structure into townGrid
+        townGrid.placeResource(element.dataset.row, element.dataset.col, structure);
 
-    // query all selected tiles
-    document.querySelectorAll('.greenBorder').forEach(function(otherSelected){
-        // remove their border
-        otherSelected.classList.remove('greenBorder');
-        // remove all the classes in the span (block)
-        otherSelected.querySelector('span').setAttribute('class', '');
-        // add back default classes
-        otherSelected.querySelector('span').classList.add('invisible','blocks');
-        // place an empty string on were blocks used to be
-        townGrid.placeResource(otherSelected.dataset.row, otherSelected.dataset.col, '');
-    });
+        // remove the hovered (highlight) from what structure you are building
+        document.getElementById(structure).classList.remove("hovered");
+
+        // query all selected tiles
+        document.querySelectorAll('.greenBorder').forEach(function(otherSelected){
+            // remove their border
+            otherSelected.classList.remove('greenBorder');
+            // remove all the classes in the span (block)
+            otherSelected.querySelector('span').setAttribute('class', '');
+            // add back default classes
+            otherSelected.querySelector('span').classList.add('invisible','blocks');
+            // place an empty string on were blocks used to be
+            townGrid.placeResource(otherSelected.dataset.row, otherSelected.dataset.col, '');
+        });
     // clear all selected tiles, ** this also clears selectedCoords **
-    clearBuildSelection();
+    clearBuildSelection(); 
+    }
 }
 
 // Adding event listeners to all resource cards, once you select a card, "deselect" all other cards and show all open spots to put blocks. 
