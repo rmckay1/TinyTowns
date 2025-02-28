@@ -508,9 +508,19 @@ body {
   display:unset;
 }
 
+.cottage::after{
+  content: "\1F3E0";
+  text-shadow: 
+  -1px -1px 0 #666,
+  1px -1px 0 #666,
+  -1px 1px 0 #666,
+  1px 1px 0 #666;
+  z-index: 5;
+}
+
 
 .invisible {
-  display:none
+  display:none;
 }
 
 span.mint::after {
@@ -545,6 +555,8 @@ span.house::after {
   -1px 1px 0 #666,
   1px 1px 0 #666; 
 }
+
+
 
 .hovered {
   background-color: yellow !important;

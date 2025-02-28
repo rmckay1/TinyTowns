@@ -719,6 +719,36 @@
 //     }
 //   }
 // }
+
+function placeStructure(structure, nodeList) {
+
+    document.getElementById(structure).classList.remove("hovered");
+    console.log(document.getElementById(structure).classList);
+    document.querySelectorAll('.greenBorder').forEach(function(otherSelected){
+        console.log('other selected is', otherSelected);
+        otherSelected.classList.remove('greenBorder');
+        console.log('border is removed!');
+        otherSelected.querySelector('span').classList.remove(...otherSelected.classList);
+        otherSelected.querySelector('span').classList.add('invisible','blocks');
+        townGrid.placeResource(otherSelected.dataset.row, otherSelected.dataset.col, '');
+        console.log(`Placed resource: "" at (${otherSelected.dataset.row}, ${otherSelected.dataset.col})`);
+        console.log(townGrid.getGrid());
+    });
+    clearBuildSelection();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 const selectedCoords = new Set();
 
 class TownGrid {
@@ -732,9 +762,7 @@ class TownGrid {
     }
 
     placeResource(r, c, resource) {
-        if (this.grid[r][c] == "") {
-            this.grid[r][c] = resource;
-        }
+        this.grid[r][c] = resource;
     }
 
     getResource(r, c) {
@@ -776,6 +804,17 @@ function addHoverClass(nodeList) {
 function addTileEventListener(nodeList, deck) {
     nodeList.forEach(function(element) {
         element.addEventListener('click', function() {
+            if(document.getElementById("cottage").classList.contains('hovered')) {
+                if (confirm("do you want to build a cottage?") == true){
+                    selectedResource = null;
+                    element.innerHTML = `<span class="cottage"></span>`;
+                    element.classList.remove('greenBorder', 'hovered');
+                    townGrid.placeResource(element.dataset.row, element.dataset.col, 'cottage');
+                    placeStructure("cottage", nodeList);
+                    return;
+                    
+                }
+            }
             if (!selectedResource) {
                 if (element.classList.contains('greenBorder')) {
                     element.classList.remove('greenBorder');
@@ -783,23 +822,27 @@ function addTileEventListener(nodeList, deck) {
                 } else {
                     element.classList.add('greenBorder');
                     selectedCoords.add([element.dataset.row, element.dataset.col]);
+                    if((checkValidPattern(cottageRec.getRecipes(), selectedCoords))) {
+                        document.getElementById("cottage").classList.add('hovered');
+                        
+                    }
                 }
             }
 
-            if (selectedResource == "inherit" || selectedResource == null){
-                return;
-            }
-            console.log(`Selected Coords:`);
+
+            // console.log(`Selected Coords:`);
             for (const coord of selectedCoords) {
                 console.log(coord);
             }
-
+            if (selectedResource == "inherit" || selectedResource == null){
+                return;
+            }
             this.querySelector('span').classList.add(selectedResource);
             this.querySelector('span').classList.remove("invisible");
 
             townGrid.placeResource(element.dataset.row, element.dataset.col, selectedResource);
-            console.log(`Placed resource: ${selectedResource} at (${element.dataset.row}, ${element.dataset.col})`);
-            console.log(townGrid.getGrid());
+            // console.log(`Placed resource: ${selectedResource} at (${element.dataset.row}, ${element.dataset.col})`);
+            // console.log(townGrid.getGrid());
 
             replaceUsedResourceCard(deck);
             deck.setCurCard(null);
@@ -866,7 +909,8 @@ function clearBuildSelection() {
     squares.forEach(function(span) {
         if(span.classList.contains("greenBorder")){
             span.classList.remove("greenBorder");
-        }   
+        }
+    selectedCoords.clear();   
     });
 }
 
@@ -879,6 +923,7 @@ function onOff(nodeList, param){
          resourceCards[2].classList.contains('off'))) {
         resourceCardCleanup();
         showOpenSlots(false);
+        selectedResource = "inherits";
         console.log('Odd case for enablePlacement hit!');
         // return enablePlacement = true;
     // }
@@ -930,8 +975,7 @@ function resourceOnOffEventListener(nodeList, deck) {
 
 // Resetting resource cards to all are selectable
 function resourceCardCleanup(){
-    const nodeList = document.querySelectorAll('.resources .card');
-    selectedResource = null; 
+    const nodeList = document.querySelectorAll('.resources .card'); 
     nodeList.forEach(function(element){
         if (element.classList.contains("off")){
             element.classList.remove("off");
@@ -945,9 +989,7 @@ function addHoverBehavior(deck) {
     const townTiles = document.querySelectorAll('.town .tile');
     // select all elements with the classes .matsAndBuildTile .resources .card
     const resourceTiles = document.querySelectorAll('.resources .card');
-    
-    const selectedResource = "inherit";
-    
+
     const button = document.querySelectorAll('.button');
     //console.log(selectedResource);
     // console.log(resourceTiles);
@@ -1100,60 +1142,82 @@ const theatreRec = new Recipe("theatre", [
     ]);
 
 
+// Function to get a sub-matrix of the input matrix by removing any empty rows or columns
 function getSubMatrix(matrix) {
+    // Filter out rows that are completely empty (all cells are "")
     let nonEmptyRows = matrix.filter(row => row.some(cell => cell !== ""));
+    // Initialize an array to store the non-empty columns
     let nonEmptyCols = [];
+
+    // Loop through each column of the first row and check if any row in that column has a non-empty value
     for (let col = 0; col < nonEmptyRows[0].length; col++) {
         if (nonEmptyRows.some(row => row[col] !== "")) {
-            nonEmptyCols.push(col);
+            nonEmptyCols.push(col);  // If the column has a non-empty value, add it to nonEmptyCols
         }
     }
 
+    // Map the non-empty rows and columns into a new sub-matrix and return it
     return nonEmptyRows.map(row => nonEmptyCols.map(col => row[col]));
 }
 
-
+// Function to check if a given sub-matrix matches a recipe matrix exactly
 function checkValidRecipe(recipe, sub) {
-
-    //console.log(recipe);
-    //console.log(sub);
+    // console.log("recipe is " + recipe);
+    // console.log("sub is " + sub);
+    // Check if the sub-matrix and the recipe matrix have the same number of rows
     if (sub.length == recipe.length) {
+        // Check if the number of columns in the sub-matrix matches the recipe
         if (sub[0].length == recipe[0].length) {
+            // Iterate through all rows and columns to compare each cell
             for (let r = 0; r < sub.length; r++) {
                 for (let c = 0; c < sub[0].length; c++) {
+                    // If any corresponding cell doesn't match, the recipe is invalid
                     if (sub[r][c] !== recipe[r][c]) {
-                        return false;
+                        return false; // Return false if mismatch found
                     }
                 }
             }
         } else {
-            return false;
+            return false; // Return false if the number of columns doesn't match
         }
     } else {
-        return false;
+        return false; // Return false if the number of rows doesn't match
     }
-    return true;
+    return true; // Return true if all rows and columns match
 }
 
+// Function to check if the selected coordinates match any valid recipe pattern
 function checkValidPattern(recipes, selectedCoords) {
+    // Initialize a 4x4 grid filled with empty strings to represent the full pattern
     let fullMat = [["", "", "", ""],["", "", "", ""],["", "", "", ""],["", "", "", ""]];
-    for (let i = 0; i < selectedCoords.length; i++) {
-        let coord = selectedCoords[i];
-        //console.log(coord);
-        fullMat[coord[0]][coord[1]] = townGrid.getGrid()[coord[0]][coord[1]];
+    // Loop through the selected coordinates and fill in the grid with the corresponding values
+    // console.log(selectedCoords.size);
+    const coordsArray = [...selectedCoords];
+
+    for (let i = 0; i < coordsArray.length; i++) {
+        let coord = coordsArray[i];  // Access each coord as if it's an array element
+        // console.log("coord is: " + coord);
+        fullMat[coord[0]][coord[1]] = townGrid.getGrid()[coord[0]][coord[1]];  // Fill the grid with values from the town grid
+        // console.log("fullmat is now: " + fullMat);
     }
 
-    //console.log(fullMat);
-
+    // Get the sub-matrix (non-empty portion of the grid)
+    // console.log("fullmat is \n" + fullMat);
+    // console.log(townGrid.getGrid());
     let sub = getSubMatrix(fullMat);
 
+    // Check each recipe to see if it matches the sub-matrix
     for (let i = 0; i < 8; i++) {
+        // If a recipe matches, return true
         if (checkValidRecipe(recipes[i], sub)) {
             return true;
         }
     }
+
+    // Return false if no valid recipe was found
     return false;
 }
+
 
 // townGrid.setGrid([
 //     ["", "", "", ""],
