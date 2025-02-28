@@ -518,6 +518,15 @@ body {
   z-index: 5;
 }
 
+.theatre::after{
+  content: "\1F3AD";
+  text-shadow: 
+  -1px -1px 0 #666,
+  1px -1px 0 #666,
+  -1px 1px 0 #666,
+  1px 1px 0 #666;
+  z-index: 5;
+}
 
 .invisible {
   display:none;

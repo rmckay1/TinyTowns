@@ -720,35 +720,6 @@
 //   }
 // }
 
-function placeStructure(structure, nodeList) {
-
-    document.getElementById(structure).classList.remove("hovered");
-    console.log(document.getElementById(structure).classList);
-    document.querySelectorAll('.greenBorder').forEach(function(otherSelected){
-        console.log('other selected is', otherSelected);
-        otherSelected.classList.remove('greenBorder');
-        console.log('border is removed!');
-        otherSelected.querySelector('span').classList.remove(...otherSelected.classList);
-        otherSelected.querySelector('span').classList.add('invisible','blocks');
-        townGrid.placeResource(otherSelected.dataset.row, otherSelected.dataset.col, '');
-        console.log(`Placed resource: "" at (${otherSelected.dataset.row}, ${otherSelected.dataset.col})`);
-        console.log(townGrid.getGrid());
-    });
-    clearBuildSelection();
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
 const selectedCoords = new Set();
 
 class TownGrid {
@@ -810,11 +781,23 @@ function addTileEventListener(nodeList, deck) {
                     element.innerHTML = `<span class="cottage"></span>`;
                     element.classList.remove('greenBorder', 'hovered');
                     townGrid.placeResource(element.dataset.row, element.dataset.col, 'cottage');
-                    placeStructure("cottage", nodeList);
-                    return;
-                    
+                    placeStructure("cottage");
+                    return; 
                 }
             }
+
+            if(document.getElementById("theatre").classList.contains('hovered')) {
+                if (confirm("do you want to build a theatre?") == true){
+                    selectedResource = null;
+                    element.innerHTML = `<span class="theatre"></span>`;
+                    element.classList.remove('greenBorder', 'hovered');
+                    townGrid.placeResource(element.dataset.row, element.dataset.col, 'theatre');
+                    placeStructure("theatre", nodeList);
+                    return; 
+                }
+            }
+
+
             if (!selectedResource) {
                 if (element.classList.contains('greenBorder')) {
                     element.classList.remove('greenBorder');
@@ -823,8 +806,11 @@ function addTileEventListener(nodeList, deck) {
                     element.classList.add('greenBorder');
                     selectedCoords.add([element.dataset.row, element.dataset.col]);
                     if((checkValidPattern(cottageRec.getRecipes(), selectedCoords))) {
-                        document.getElementById("cottage").classList.add('hovered');
-                        
+                        document.getElementById("cottage").classList.add('hovered'); 
+                    }
+                    
+                    if((checkValidPattern(theatreRec.getRecipes(), selectedCoords))) {
+                        document.getElementById("theatre").classList.add('hovered');
                     }
                 }
             }
@@ -950,6 +936,26 @@ function onOff(nodeList, param){
         });
         // return enablePlacement = true; 
     }
+}
+
+// this function handles structure placement and resets other blocks to empty board (default)
+function placeStructure(structure) {
+    // remove the hovered (highlight) from what structure you are building
+    document.getElementById(structure).classList.remove("hovered");
+
+    // query all selected tiles
+    document.querySelectorAll('.greenBorder').forEach(function(otherSelected){
+        // remove their border
+        otherSelected.classList.remove('greenBorder');
+        // remove all the classes in the span (block)
+        otherSelected.querySelector('span').setAttribute('class', '');
+        // add back default classes
+        otherSelected.querySelector('span').classList.add('invisible','blocks');
+        // place an empty string on were blocks used to be
+        townGrid.placeResource(otherSelected.dataset.row, otherSelected.dataset.col, '');
+    });
+    // clear all selected tiles, ** this also clears selectedCoords **
+    clearBuildSelection();
 }
 
 // Adding event listeners to all resource cards, once you select a card, "deselect" all other cards and show all open spots to put blocks. 
