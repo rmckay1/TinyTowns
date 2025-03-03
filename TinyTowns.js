@@ -776,8 +776,8 @@ function addTileEventListener(nodeList, deck) {
     nodeList.forEach(function(element) {
         element.addEventListener('click', function() {
 
-            if(document.getElementById("cottage").classList.contains('hovered')) {
-                placeStructure(element, "cottage");
+            if(document.getElementById("well").classList.contains('hovered')) {
+                placeStructure(element, "well");
                 // return to prevent other onclick events from happening
                 return;
             }
@@ -788,21 +788,84 @@ function addTileEventListener(nodeList, deck) {
                 return;
             }
 
+            if(document.getElementById("factory").classList.contains('hovered')) {
+                placeStructure(element, "factory");
+                // return to prevent other onclick events from happening
+                return;
+            }
 
-            if (!selectedResource && element.querySelector('span').classList.contains("cottage") == false && element.querySelector('span').classList.contains("theatre") == false) {
+            if(document.getElementById("cottage").classList.contains('hovered')) {
+                placeStructure(element, "cottage");
+                // return to prevent other onclick events from happening
+                return;
+            }
+
+            if(document.getElementById("chapel").classList.contains('hovered')) {
+                placeStructure(element, "chapel");
+                // return to prevent other onclick events from happening
+                return;
+            }
+
+            if(document.getElementById("farm").classList.contains('hovered')) {
+                placeStructure(element, "farm");
+                // return to prevent other onclick events from happening
+                return;
+            }
+
+            if(document.getElementById("tavern").classList.contains('hovered')) {
+                placeStructure(element, "tavern");
+                // return to prevent other onclick events from happening
+                return;
+            }
+
+            if(document.getElementById("Caterina").classList.contains('hovered')) {
+                placeStructure(element, "Caterina");
+                // return to prevent other onclick events from happening
+                return;
+            }
+
+
+            if (!selectedResource && element.querySelector('span').classList.contains("well") == false 
+            && element.querySelector('span').classList.contains("theatre") == false
+            && element.querySelector('span').classList.contains("factory") == false
+            && element.querySelector('span').classList.contains("cottage") == false
+            && element.querySelector('span').classList.contains("chapel") == false
+            && element.querySelector('span').classList.contains("farm") == false
+            && element.querySelector('span').classList.contains("tavern") == false
+            && element.querySelector('span').classList.contains("Caterina") == false) {
                 if (element.classList.contains('greenBorder')) {
                     element.classList.remove('greenBorder');
                     selectedCoords.delete([element.dataset.row, element.dataset.col]);
                 } else {
                     element.classList.add('greenBorder');
                     selectedCoords.add([element.dataset.row, element.dataset.col]);
-                    if((checkValidPattern(cottageRec.getRecipes(), selectedCoords))) {
-                        document.getElementById("cottage").classList.add('hovered'); 
+
+                    if((checkValidPattern(wellRec.getRecipes(), selectedCoords))) {
+                        document.getElementById("well").classList.add('hovered');
                     }
-                    
                     if((checkValidPattern(theatreRec.getRecipes(), selectedCoords))) {
                         document.getElementById("theatre").classList.add('hovered');
                     }
+                    if((checkValidPattern(factoryRec.getRecipes(), selectedCoords))) {
+                        document.getElementById("factory").classList.add('hovered');
+                    }
+                    if((checkValidPattern(cottageRec.getRecipes(), selectedCoords))) {
+                        document.getElementById("cottage").classList.add('hovered'); 
+                    }
+                    if((checkValidPattern(chapelRec.getRecipes(), selectedCoords))) {
+                        document.getElementById("chapel").classList.add('hovered');
+                    }
+                    if((checkValidPattern(farmRec.getRecipes(), selectedCoords))) {
+                        document.getElementById("farm").classList.add('hovered');
+                    }
+                    if((checkValidPattern(tavernRec.getRecipes(), selectedCoords))) {
+                        document.getElementById("tavern").classList.add('hovered');
+                    }
+                    if((checkValidPattern(cathedralRec.getRecipes(), selectedCoords))) {
+                        document.getElementById("Caterina").classList.add('hovered');
+                    }
+
+                    
                 }
             }
 
@@ -1133,17 +1196,16 @@ class Recipe {
         return this.type;
     }
 }
-
-const cottageRec = new Recipe("cottage", [
-    [["", "wheat"], ["brick", "glass"]],  // Original
-    [["brick", ""], ["glass", "wheat"]],  // 90° rotation
-    [["glass", "brick"], ["wheat", ""]],  // 180° rotation
-    [["wheat", "glass"], ["", "brick"]],  // 270° rotation
-    [["wheat", ""], ["glass", "brick"]],  // Horizontal flip
-    [["brick", "glass"], ["", "wheat"]],  // Vertical flip
-    [["", "brick"], ["wheat", "glass"]],  // Main diagonal flip
-    [["glass", "wheat"], ["brick", ""]]   // Anti-diagonal flip
-    ]);
+const wellRec = new Recipe("well", [
+    [["wood", "stone"]],  // Original
+    [["wood"], ["stone"]],  // 90° rotation
+    [["stone", "wood"]],  // 180° rotation
+    [["stone"], ["wood"]],  // 270° rotation
+    [["stone", "wood"]],  // Horizontal flip
+    [["wood", "stone"]],  // Vertical flip
+    [["wood"], ["stone"]],  // Main diagonal flip
+    [["stone"], ["wood"]]  // Anti-diagonal flip
+]);
 
 const theatreRec = new Recipe("theatre", [
     [ ["", "stone", ""],  ["wood", "glass", "wood"] ],  // Original
@@ -1154,7 +1216,73 @@ const theatreRec = new Recipe("theatre", [
     [ ["wood", "glass", "wood"], ["", "stone", ""] ],   // Vertical Flip
     [ ["", "wood"], ["stone", "glass"], ["", "wood"] ], // Main Diagonal Flip
     [ ["wood", ""], ["glass", "stone"], ["wood", ""] ]  // Anti-Diagonal Flip
-    ]);
+]);
+
+const factoryRec = new Recipe("factory", [
+    [["wood", "", "", ""], ["brick", "stone", "stone", "brick"]],  // Original
+    [["brick", "wood"], ["stone", ""], ["stone", ""], ["brick", ""]],  // 90° rotation
+    [["brick", "stone", "stone", "brick"], ["", "", "", "wood"]],  // 180° rotation
+    [["", "brick"], ["", "stone"], ["", "stone"], ["wood", "brick"]],  // 270° rotation
+    [["", "", "", "wood"], ["brick", "stone", "stone", "brick"]],  // Horizontal flip
+    [["brick", "stone", "stone", "brick"], ["wood", "", "", ""]],  // Vertical flip
+    [["wood", "brick"], ["", "stone"], ["", "stone"], ["", "brick"]],  // Main diagonal flip
+    [["brick", ""], ["stone", ""], ["stone", ""], ["brick", "wood"]]  // Anti-diagonal flip
+]);
+
+const cottageRec = new Recipe("cottage", [
+    [["", "wheat"], ["brick", "glass"]],  // Original
+    [["brick", ""], ["glass", "wheat"]],  // 90° rotation
+    [["glass", "brick"], ["wheat", ""]],  // 180° rotation
+    [["wheat", "glass"], ["", "brick"]],  // 270° rotation
+    [["wheat", ""], ["glass", "brick"]],  // Horizontal flip
+    [["brick", "glass"], ["", "wheat"]],  // Vertical flip
+    [["", "brick"], ["wheat", "glass"]],  // Main diagonal flip
+    [["glass", "wheat"], ["brick", ""]]   // Anti-diagonal flip
+]);
+
+const chapelRec = new Recipe("chapel", [
+    [["", "", "glass"], ["stone", "glass", "stone"]],  // Original
+    [["stone", ""], ["glass", ""], ["stone", "glass"]],  // 90° rotation
+    [["stone", "glass", "stone"], ["glass", "", ""]],  // 180° rotation
+    [["glass", "stone"], ["", "glass"], ["", "stone"]],  // 270° rotation
+    [["glass", "", ""], ["stone", "glass", "stone"]],  // Horizontal flip
+    [["stone", "glass", "stone"], ["", "", "glass"]],  // Vertical flip
+    [["", "stone"], ["", "glass"], ["glass", "stone"]],  // Main diagonal flip
+    [["stone", "glass"], ["glass", ""], ["stone", ""]]  // Anti-diagonal flip
+]);
+
+const farmRec = new Recipe("farm", [
+    [["wheat", "wheat"], ["wood", "wood"]],  // Original
+    [["wood", "wheat"], ["wood", "wheat"]],  // 90° rotation
+    [["wood", "wood"], ["wheat", "wheat"]],  // 180° rotation
+    [["wheat", "wood"], ["wheat", "wood"]],  // 270° rotation
+    [["wheat", "wheat"], ["wood", "wood"]],  // Horizontal flip (same as original)
+    [["wood", "wood"], ["wheat", "wheat"]],  // Vertical flip (same as 180°)
+    [["wheat", "wood"], ["wheat", "wood"]],  // Main diagonal flip (same as 270°)
+    [["wood", "wheat"], ["wood", "wheat"]]   // Anti-diagonal flip (same as 90°)
+]);
+
+const tavernRec = new Recipe("tavern", [
+    [["brick", "brick", "glass"]],  // Original
+    [["brick"], ["brick"], ["glass"]],  // 90° rotation
+    [["glass", "brick", "brick"]],  // 180° rotation
+    [["glass"], ["brick"], ["brick"]],  // 270° rotation
+    [["glass", "brick", "brick"]],  // Horizontal flip
+    [["brick", "brick", "glass"]],  // Vertical flip (same as original)
+    [["brick"], ["brick"], ["glass"]],  // Main diagonal flip (same as 90° rotation)
+    [["glass"], ["brick"], ["brick"]]  // Anti-diagonal flip (same as 270° rotation)
+]);
+
+const cathedralRec = new Recipe("cathedral", [
+    [["wheat", ""], ["stone", "glass"]],  // Original
+    [["stone", "wheat"], ["glass", ""]],  // 90° rotation
+    [["glass", "stone"], ["", "wheat"]],  // 180° rotation
+    [["", "glass"], ["wheat", "stone"]],  // 270° rotation
+    [["", "wheat"], ["glass", "stone"]],  // Horizontal flip
+    [["stone", "glass"], ["wheat", ""]],  // Vertical flip
+    [["wheat", "stone"], ["", "glass"]],  // Main diagonal flip
+    [["glass", ""], ["stone", "wheat"]]   // Anti-diagonal flip
+]);
 
 
 // Function to get a sub-matrix of the input matrix by removing any empty rows or columns

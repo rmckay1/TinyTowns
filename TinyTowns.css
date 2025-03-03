@@ -507,7 +507,33 @@ body {
   background-color: #8e9a99;
   display:unset;
 }
-
+.well::after{
+  content: "💧";
+  text-shadow: 
+  -1px -1px 0 #666,
+  1px -1px 0 #666,
+  -1px 1px 0 #666,
+  1px 1px 0 #666;
+  z-index: 5;
+}
+.theatre::after{
+  content: "\1F3AD";
+  text-shadow: 
+  -1px -1px 0 #666,
+  1px -1px 0 #666,
+  -1px 1px 0 #666,
+  1px 1px 0 #666;
+  z-index: 5;
+}
+.factory::after{
+  content: "🏭";
+  text-shadow: 
+  -1px -1px 0 #666,
+  1px -1px 0 #666,
+  -1px 1px 0 #666,
+  1px 1px 0 #666;
+  z-index: 5;
+}
 .cottage::after{
   content: "\1F3E0";
   text-shadow: 
@@ -517,9 +543,35 @@ body {
   1px 1px 0 #666;
   z-index: 5;
 }
-
-.theatre::after{
-  content: "\1F3AD";
+.chapel::after{
+  content: "⛪️";
+  text-shadow: 
+  -1px -1px 0 #666,
+  1px -1px 0 #666,
+  -1px 1px 0 #666,
+  1px 1px 0 #666;
+  z-index: 5;
+}
+.farm::after{
+  content: "🌾";
+  text-shadow: 
+  -1px -1px 0 #666,
+  1px -1px 0 #666,
+  -1px 1px 0 #666,
+  1px 1px 0 #666;
+  z-index: 5;
+}
+.tavern::after{
+  content: "🍻";
+  text-shadow: 
+  -1px -1px 0 #666,
+  1px -1px 0 #666,
+  -1px 1px 0 #666,
+  1px 1px 0 #666;
+  z-index: 5;
+}
+.Caterina::after{
+  content: "✝️";
   text-shadow: 
   -1px -1px 0 #666,
   1px -1px 0 #666,
