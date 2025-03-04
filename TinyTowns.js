@@ -825,7 +825,9 @@ function addTileEventListener(nodeList, deck) {
             }
 
 
-            if (!selectedResource && element.querySelector('span').classList.contains("well") == false 
+            if (!selectedResource 
+            && element.querySelector('span').classList.contains("invisible") == false 
+            && element.querySelector('span').classList.contains("well") == false 
             && element.querySelector('span').classList.contains("theatre") == false
             && element.querySelector('span').classList.contains("factory") == false
             && element.querySelector('span').classList.contains("cottage") == false
@@ -877,6 +879,7 @@ function addTileEventListener(nodeList, deck) {
             if (selectedResource == "inherit" || selectedResource == null || this.querySelector('span').classList.contains('wood') || this.querySelector('span').classList.contains('wheat') || this.querySelector('span').classList.contains('brick') || this.querySelector('span').classList.contains('glass') || this.querySelector('span').classList.contains('stone')){
                 return;
             }
+
             this.querySelector('span').classList.add(selectedResource);
             this.querySelector('span').classList.remove("invisible");
 
