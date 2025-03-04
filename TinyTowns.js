@@ -875,6 +875,7 @@ function addTileEventListener(nodeList, deck) {
             // console.log(`Selected Coords:`);
             for (const coord of selectedCoords) {
                 console.log(coord);
+                console.log(townGrid.getGrid())
             }
             if (selectedResource == "inherit" || selectedResource == null || this.querySelector('span').classList.contains('wood') || this.querySelector('span').classList.contains('wheat') || this.querySelector('span').classList.contains('brick') || this.querySelector('span').classList.contains('glass') || this.querySelector('span').classList.contains('stone')){
                 return;
@@ -885,6 +886,7 @@ function addTileEventListener(nodeList, deck) {
 
             
             townGrid.placeResource(element.dataset.row, element.dataset.col, selectedResource);
+            console.log(townGrid.getGrid());
             // console.log(`Placed resource: ${selectedResource} at (${element.dataset.row}, ${element.dataset.col})`);
             // console.log(townGrid.getGrid());
 
@@ -955,7 +957,13 @@ function clearBuildSelection() {
         if(span.classList.contains("greenBorder")){
             span.classList.remove("greenBorder");
         }
-    selectedCoords.clear();   
+    selectedCoords.clear();
+    document.querySelectorAll('.buildables .card').forEach(function(element){
+        if (element.classList.contains('hovered')){
+            element.classList.remove('hovered');
+        }
+    });
+
     });
 }
 
