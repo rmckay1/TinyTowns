@@ -1297,21 +1297,66 @@ const cathedralRec = new Recipe("cathedral", [
 
 
 // Function to get a sub-matrix of the input matrix by removing any empty rows or columns
-function getSubMatrix(matrix) {
-    // Filter out rows that are completely empty (all cells are "")
-    let nonEmptyRows = matrix.filter(row => row.some(cell => cell !== ""));
-    // Initialize an array to store the non-empty columns
-    let nonEmptyCols = [];
+function getSubMatrix(selectedCoords) {
+    // // Filter out rows that are completely empty (all cells are "")
+    // let nonEmptyRows = matrix.filter(row => row.some(cell => cell !== ""));
+    // // Initialize an array to store the non-empty columns
+    // let nonEmptyCols = [];
 
-    // Loop through each column of the first row and check if any row in that column has a non-empty value
-    for (let col = 0; col < nonEmptyRows[0].length; col++) {
-        if (nonEmptyRows.some(row => row[col] !== "")) {
-            nonEmptyCols.push(col);  // If the column has a non-empty value, add it to nonEmptyCols
+    // // Loop through each column of the first row and check if any row in that column has a non-empty value
+    // for (let col = 0; col < nonEmptyRows[0].length; col++) {
+    //     if (nonEmptyRows.some(row => row[col] !== "")) {
+    //         nonEmptyCols.push(col);  // If the column has a non-empty value, add it to nonEmptyCols
+    //     }
+    // }
+
+    // // Map the non-empty rows and columns into a new sub-matrix and return it
+    // return nonEmptyRows.map(row => nonEmptyCols.map(col => row[col]));
+    const coordsArray = [...selectedCoords];
+    let r0 = 3;
+    let rf = 0;
+    let c0 = 3;
+    let cf = 0;
+
+    for (let i = 0; i < coordsArray.length; i++) {
+        let coord = coordsArray[i];  // Access each coord as if it's an array element
+        
+        if (coord[0] < r0) {
+            r0 = coord[0];
+        }
+        if (coord[0] > rf) {
+            rf = coord[0];
+        }
+        if (coord[1] < c0) {
+            c0 = coord[1];
+        }
+        if (coord[1] > cf) {
+            cf = coord[1];
         }
     }
+    const submatrix = [];
 
-    // Map the non-empty rows and columns into a new sub-matrix and return it
-    return nonEmptyRows.map(row => nonEmptyCols.map(col => row[col]));
+    for (let i = r0; i <= rf; i++) {
+        const row = [];
+        for (let j = c0; j <= cf; j++) {
+            row.push("");
+
+            for (let n = 0; n < coordsArray.length; n++) {
+                let r = coordsArray[n][0];
+                let c = coordsArray[n][1];
+
+                if (r == i && c == j) {
+                    row[c] = townGrid.getGrid()[r][c];
+                }
+            }
+        }
+        submatrix.push(row);
+    }
+    //console.log(`${r0} ${rf} ${c0} ${cf}`);
+
+    
+    return submatrix;
+
 }
 
 // Function to check if a given sub-matrix matches a recipe matrix exactly
@@ -1358,8 +1403,8 @@ function checkValidPattern(recipes, selectedCoords) {
     // Get the sub-matrix (non-empty portion of the grid)
     // console.log("fullmat is \n" + fullMat);
     // console.log(townGrid.getGrid());
-    let sub = getSubMatrix(fullMat);
-
+    let sub = getSubMatrix(selectedCoords);
+    //console.log(sub);
     // Check each recipe to see if it matches the sub-matrix
     for (let i = 0; i < 8; i++) {
         // If a recipe matches, return true
