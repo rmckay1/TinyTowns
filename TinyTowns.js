@@ -1335,24 +1335,27 @@ function getSubMatrix(selectedCoords) {
         }
     }
     const submatrix = [];
-
+    console.log(`Coords array: ${coordsArray}`);
     for (let i = r0; i <= rf; i++) {
         const row = [];
         for (let j = c0; j <= cf; j++) {
-            row.push("");
+            let content = "";
+
 
             for (let n = 0; n < coordsArray.length; n++) {
                 let r = coordsArray[n][0];
                 let c = coordsArray[n][1];
 
                 if (r == i && c == j) {
-                    row[c] = townGrid.getGrid()[r][c];
+                    content = townGrid.getGrid()[r][c];
                 }
             }
+
+            row.push(content);
         }
         submatrix.push(row);
     }
-    //console.log(`${r0} ${rf} ${c0} ${cf}`);
+    console.log(`${r0} ${rf} ${c0} ${cf}`);
 
     
     return submatrix;
@@ -1404,7 +1407,7 @@ function checkValidPattern(recipes, selectedCoords) {
     // console.log("fullmat is \n" + fullMat);
     // console.log(townGrid.getGrid());
     let sub = getSubMatrix(selectedCoords);
-    //console.log(sub);
+    console.log(sub);
     // Check each recipe to see if it matches the sub-matrix
     for (let i = 0; i < 8; i++) {
         // If a recipe matches, return true
