@@ -720,7 +720,7 @@
 //   }
 // }
 
-const selectedCoords = new Set();
+let selectedCoords = new Set();
 
 class TownGrid {
     constructor() {
@@ -837,7 +837,14 @@ function addTileEventListener(nodeList, deck) {
             && element.querySelector('span').classList.contains("Caterina") == false) {
                 if (element.classList.contains('greenBorder')) {
                     element.classList.remove('greenBorder');
-                    selectedCoords.delete([element.dataset.row, element.dataset.col]);
+
+                    let coordToDelete = [element.dataset.row, element.dataset.col];
+                    for (let coord of selectedCoords) {
+                        if (coord.every((val, index) => val === coordToDelete[index])) {
+                          selectedCoords.delete(coord);
+                        }
+                    }
+
                 } else {
                     element.classList.add('greenBorder');
                     selectedCoords.add([element.dataset.row, element.dataset.col]);
