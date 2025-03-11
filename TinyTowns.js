@@ -706,6 +706,51 @@ function checkValidPattern(recipes, selectedCoords) {
 }
 
 
+
+function endGame() {
+    window.location.href = "scoreboard.html";
+    let gridStr = "";
+    for (let r = 0; r < 4; r++) {
+        for (let c = 0; c < 4; c++) {
+            let b = townGrid.getGrid()[r][c];
+            let char = "?";
+
+            if (b == "") {
+                char = "X"
+            } else if (b == "stone") {
+                char = "s";
+            } else if (b == "wheat") {
+                char = "w";
+            } else if (b == "glass") {
+                char = "g";
+            } else if (b == "brick") {
+                char = "b";
+            } else if (b == "wood") {
+                char = "o";
+            } else if (b == "well") {
+                char = "W";
+            } else if (b == "theatre") {
+                char = "T";
+            } else if (b == "factory") {
+                char = "F";
+            } else if (b == "cottage") {
+                char = "C";
+            } else if (b == "chapel") {
+                char = "T";
+            } else if (b == "farm") {
+                char = "N";
+            } else if (b == "tavern") {
+                char = "U";
+            } else if (b == "Caterina") {
+                char = "P";
+            }
+
+            gridStr += char;
+        }
+    }
+    console.log(gridStr);
+
+}
 // townGrid.setGrid([
 //     ["", "", "", ""],
 //     ["", "", "", ""],
