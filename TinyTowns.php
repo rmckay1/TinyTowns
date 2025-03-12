@@ -1,9 +1,17 @@
+<?php
+session_start();
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $username = $_POST["username"];
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tiny Towns</title>
+    <title>Hello, <?php echo $_SESSION['user'] ?></title>
     <link rel="stylesheet" href="TinyTowns.css">
     <script src="TinyTowns.js" delay></script>
   </head>
@@ -142,10 +150,11 @@
       <div id="town" class="town">
       </div>
     </div>
-    <div class="endGameButton"> 
-      <button id="btnEndGame" class="button" onclick="endGame()">End Game</button>
-    </div>
-
+    <form id="btnEndGame" method="post" action="scoreboard.php">
+      <input type="hidden" name="jsval" id="jsval" value=""/>
+      <!-- Other fields could go here. -->
+      <input type="submit" value="END GAME" onclick="endGame();"/>
+    </form>
     <div id="popup"></div>
   </body>
 </html>

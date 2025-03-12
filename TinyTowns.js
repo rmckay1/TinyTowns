@@ -708,7 +708,7 @@ function checkValidPattern(recipes, selectedCoords) {
 
 
 function endGame() {
-    window.location.href = "scoreboard.html";
+
     let gridStr = "";
     for (let r = 0; r < 4; r++) {
         for (let c = 0; c < 4; c++) {
@@ -750,6 +750,10 @@ function endGame() {
     }
     console.log(gridStr);
 
+    // give string to php
+    document.getElementById('jsval').value = gridStr;
+    document.getElementById('btnEndGame').submit();
+    
 }
 // townGrid.setGrid([
 //     ["", "", "", ""],
