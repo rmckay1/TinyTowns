@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $message = 'Username already exists.';
   } else {
     $hash = password_hash($pass, PASSWORD_DEFAULT);
-    $stmt = $conn->prepare('INSERT INTO Users VALUES (?, ?)');
+    $stmt = $conn->prepare('INSERT INTO Users (username, hashpass) VALUES (?, ?)');
     $stmt->bind_param('ss', $user, $hash);
     if ($stmt->execute()) {
       $message = 'Account created successfully.';

@@ -751,7 +751,7 @@ function endGame() {
     console.log(gridStr);
 
     // give string to php
-    document.getElementById('jsval').value = gridStr;
+    document.getElementById('brdStr').value = gridStr;
     document.getElementById('btnEndGame').submit();
     
 }
@@ -771,6 +771,9 @@ document.addEventListener('DOMContentLoaded', function startGame() {
     const game = new Game();
     game.startGame();
 
+    const now = new Date();
+    //2025-03-01 12:34:56
+    document.getElementById('startTime').value = `${now.getFullYear()}-${now.getMonth()}-${now.getDay()} ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
     // console.log(game.getDeck());
     // game.shuffleDeck();
     // console.log(game.getDeck());

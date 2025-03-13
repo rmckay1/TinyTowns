@@ -1,9 +1,6 @@
 <?php
 session_start();
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = $_POST["username"];
-}
+$username = $_SESSION['user'];
 ?>
 
 <!DOCTYPE html>
@@ -11,7 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hello, <?php echo $_SESSION['user'] ?></title>
+    <title>Hello, <?php echo $username ?></title>
     <link rel="stylesheet" href="TinyTowns.css">
     <script src="TinyTowns.js" delay></script>
   </head>
@@ -151,7 +148,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       </div>
     </div>
     <form id="btnEndGame" method="post" action="scoreboard.php">
-      <input type="hidden" name="jsval" id="jsval" value=""/>
+      <input type="hidden" name="brdStr" id="brdStr" value=""/>
+      <input type="hidden" name="startTime" id="startTime" value=""/>
+      
       <!-- Other fields could go here. -->
       <input type="submit" value="END GAME" onclick="endGame();"/>
     </form>
