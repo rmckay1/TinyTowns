@@ -730,7 +730,7 @@ function endGame() {
             } else if (b == "well") {
                 char = "W";
             } else if (b == "theatre") {
-                char = "T";
+                char = "L";
             } else if (b == "factory") {
                 char = "F";
             } else if (b == "cottage") {
@@ -738,11 +738,13 @@ function endGame() {
             } else if (b == "chapel") {
                 char = "T";
             } else if (b == "farm") {
-                char = "N";
+                char = "A";
             } else if (b == "tavern") {
                 char = "U";
             } else if (b == "Caterina") {
                 char = "P";
+            } else {
+                char = "?";
             }
 
             gridStr += char;

@@ -152,7 +152,7 @@ $username = $_SESSION['user'];
       <input type="hidden" name="startTime" id="startTime" value=""/>
       
       <!-- Other fields could go here. -->
-      <input type="submit" value="END GAME" onclick="endGame();"/>
+      <input class=button type="submit" value="END GAME" onclick="endGame();"/>
     </form>
     <div id="popup"></div>
   </body>
